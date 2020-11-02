@@ -1,0 +1,1 @@
+# SIte_of_MADE_graduation_project_ML_horoscopes

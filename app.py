@@ -63,6 +63,29 @@ def index():
 def marusya():
 	return "Marusya"
 
+@app.route("/web", methods=['POST'])
+def web():
+	logging.info("Request: %r", request.json)
+	card = {}
+	buttons = []
+	date, sign = request.json['request']['command'].split()
+	USER_DICT[request.json['session']['user_id']] = sign
+	text = get_prediction(date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+	response = {
+		"version":request.json['version'],
+		'session':request.json['session'],
+		"response": {
+			"end_session": False,
+			"text" : text,
+			"card" : card, 
+			"buttons" : buttons 
+		}
+
+	}
+	logging.info("response %r", response)
+
+	return json.dumps (response, ensure_ascii=False, indent=2)
+
 @app.route("/marussia", methods=['POST'])
 def main():
 	logging.info("Request: %r", request.json)
@@ -82,6 +105,11 @@ def main():
 		tomorrow_date = date.today() + timedelta(days=1)
 		text = "Гороскоп на завтра. \n"+get_prediction(str(tomorrow_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
 		buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
+
+	elif request.json['request']['command'] == 'на сегодня':
+		today_date = date.today()
+		text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на другую дату':
 		text = 'На какую дату?'

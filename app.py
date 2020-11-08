@@ -32,8 +32,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
 
-def get_prediction(target_date, target_sign):
-	if target_date in PREDICTIONS_DF['date'].values
+# def get_prediction(target_date, target_sign):
+# 	if target_date in PREDICTIONS_DF['date'].values
 
 @app.route("/")
 def hello():

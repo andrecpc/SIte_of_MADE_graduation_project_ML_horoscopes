@@ -6,7 +6,7 @@ import json
 import logging
 from datetime import date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
-from flask import Flask, request
+from flask import Flask, request, render_template
 application = Flask(__name__)
 
 SIGNS = ["овен",
@@ -32,16 +32,16 @@ app.debug = True
 logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
- 
+
 def get_prediction_from_model(target_date, target_sign): #Not implemented
-  return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу. 
-  			Отношения, которые в последнее время складывались напряженно, 
-  			сейчас меняются к лучшему, потому что многие готовы к компромиссам, 
-  			стараются сглаживать острые углы и хотят достичь взаимопонимания, 
-  			а не только доказать свою правоту.Хочется отложить дела на потом, 
-  			отдохнуть. Но важно не забывать об обещаниях, данных раньше. 
-  			Постарайтесь сделать все, что запланировали. 
-  			Скорее всего, у вас останется достаточно времени и для того, 
+  return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу.
+  			Отношения, которые в последнее время складывались напряженно,
+  			сейчас меняются к лучшему, потому что многие готовы к компромиссам,
+  			стараются сглаживать острые углы и хотят достичь взаимопонимания,
+  			а не только доказать свою правоту.Хочется отложить дела на потом,
+  			отдохнуть. Но важно не забывать об обещаниях, данных раньше.
+  			Постарайтесь сделать все, что запланировали.
+  			Скорее всего, у вас останется достаточно времени и для того,
   			чтобы немного развлечься, восстановить силы.""")
 
 def get_prediction(target_date, target_sign, PREDICTIONS_DF):
@@ -49,11 +49,15 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
     return(PREDICTIONS_DF.loc[target_date,target_sign])
   else:
     return(get_prediction_from_model(target_date, target_sign))
-  
+
 
 @app.route("/")
 def hello():
-	return "Welcome to my page"
+	return render_template('index.html')
+
+@app.route("/vanga_today")
+def vanga_today():
+	return render_template('vanga_today.html')
 
 @app.route('/index')
 def index():
@@ -77,8 +81,8 @@ def web():
 		"response": {
 			"end_session": False,
 			"text" : text,
-			"card" : card, 
-			"buttons" : buttons 
+			"card" : card,
+			"buttons" : buttons
 		}
 
 	}
@@ -116,7 +120,7 @@ def main():
 			buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
 		else:
 			text = "Какой у Вас знак зодиака?"
-		
+
 	elif request.json['request']['command'] == 'на другую дату':
 		text = 'На какую дату?'
 
@@ -131,8 +135,8 @@ def main():
 		"response": {
 			"end_session": False,
 			"text" : text,
-			"card" : card, 
-			"buttons" : buttons 
+			"card" : card,
+			"buttons" : buttons
 		}
 
 	}

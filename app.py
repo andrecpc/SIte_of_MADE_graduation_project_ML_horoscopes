@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 import json
 import logging
-from datetime import date
+from datetime import date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
 application = Flask(__name__)
@@ -31,9 +31,24 @@ app.debug = True
 logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
+ 
+def get_prediction_from_model(target_date, target_sign): #Not implemented
+  return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу. 
+  			Отношения, которые в последнее время складывались напряженно, 
+  			сейчас меняются к лучшему, потому что многие готовы к компромиссам, 
+  			стараются сглаживать острые углы и хотят достичь взаимопонимания, 
+  			а не только доказать свою правоту.Хочется отложить дела на потом, 
+  			отдохнуть. Но важно не забывать об обещаниях, данных раньше. 
+  			Постарайтесь сделать все, что запланировали. 
+  			Скорее всего, у вас останется достаточно времени и для того, 
+  			чтобы немного развлечься, восстановить силы.""")
 
-# def get_prediction(target_date, target_sign):
-# 	if target_date in PREDICTIONS_DF['date'].values
+def get_prediction(target_date, target_sign, PREDICTIONS_DF):
+  if target_date in PREDICTIONS_DF.index:
+    return(PREDICTIONS_DF.loc[target_date,target_sign])
+  else:
+    return(get_prediction_from_model(target_date, target_sign))
+  
 
 @app.route("/")
 def hello():
@@ -57,12 +72,14 @@ def main():
 		text = "Привет! Это навык Эй Ай Гороскоп. Какой у Вас знак зодиака?"
 
 	elif request.json['request']['command'] in SIGNS:
+		today_date = date.today()
 		user_sign = request.json['request']['command']
-		text = "Гороскоп на сегодня. \n"+PREDICTIONS_DF.loc[0, user_sign]
+		text = "Гороскоп на сегодня. \n"+get_prediction(today_date, user_sign, PREDICTIONS_DF)
 		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на завтра':
-		text = "Гороскоп на завтра. \n"+PREDICTIONS_DF.loc[0, user_sign]
+		tomorrow_date = date.today() + timedelta(days=1)
+		text = "Гороскоп на завтра. \n"+get_prediction(tomorrow_date, user_sign, PREDICTIONS_DF)
 		buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на другую дату':

@@ -75,12 +75,12 @@ def main():
 	elif request.json['request']['command'] in SIGNS:
 		today_date = date.today()
 		USER_DICT[request.json['session']['user_id']] = request.json['request']['command']
-		text = "Гороскоп на "+today_date+". \n"+get_prediction(today_date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+		text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
 		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на завтра':
 		tomorrow_date = date.today() + timedelta(days=1)
-		text = "Гороскоп на "+tomorrow_date+". \n"+get_prediction(tomorrow_date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+		text = "Гороскоп на завтра. \n"+get_prediction(str(tomorrow_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
 		buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на другую дату':

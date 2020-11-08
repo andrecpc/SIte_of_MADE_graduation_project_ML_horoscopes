@@ -80,7 +80,7 @@ def main():
 
 	elif request.json['request']['command'] == 'на завтра':
 		tomorrow_date = date.today() + timedelta(days=1)
-		text = "Гороскоп на сегодня. \n"+get_prediction(today_date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+		text = "Гороскоп на сегодня. \n"+get_prediction(tomorrow_date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
 		buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
 
 	elif request.json['request']['command'] == 'на другую дату':

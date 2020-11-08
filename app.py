@@ -23,7 +23,7 @@ SIGNS = ["овен",
 	"рыбы",
 ]
 
-PREDICTIONS_DF = pd.read_csv("horoscopes.csv", sep=";")
+PREDICTIONS_DF = pd.read_csv("horoscopes.csv", sep=";", index_col="date")
 USER_DICT = {}
 
 app = Flask(__name__)

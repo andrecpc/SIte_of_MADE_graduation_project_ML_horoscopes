@@ -53,7 +53,7 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
 
 @app.route("/")
 def hello():
-	return render_template('index.html')
+	return render_template('main.html')
 
 @app.route("/vanga_today")
 def vanga_today():

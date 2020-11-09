@@ -90,7 +90,7 @@ p {
     border-top:2px solid #93FAFF;
 }
 .fixed-header {
-    background: transparent;
+    background: rgba(2, 61, 105, 0.80);
 }
 .fixed-header.scroll {
     background: rgba(2, 61, 105, 0.80);

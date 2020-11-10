@@ -5,7 +5,7 @@ import pandas as pd
 from zodiac_sign import get_zodiac_sign
 from astropy.time import Time
 from astroquery.jplhorizons import Horizons
-import locale
+# import locale
 import json
 import logging
 from datetime import date, timedelta
@@ -26,6 +26,21 @@ SIGNS = ["овен",
 	"водолей",
 	"рыбы",
 ]
+
+RU_EN_SIGNS = {
+	"Aries": 'Овен',
+    "Taurus": 'Телец',
+    "Gemini": 'Близнецы',
+    "Cancer": 'Рак',
+    "Leo": 'Лев',
+    "Virgo": 'Дева',
+    "Libra": 'Весы',
+    "Scorpio": 'Скорпион',
+    "Sagittarius": 'Стрелец',
+    "Capricorn": 'Козерог',
+    "Aquarius": 'Водолей',
+    "Pisces": 'Рыбы',
+}
 
 PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
 			'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
@@ -106,9 +121,10 @@ def vanga_custom():
 		return render_template('vanga_custom.html', dates = False)
 
 	# Тут определяем знак зодиака
-	locale.setlocale(locale.LC_ALL, 'ru_RU')
+	# locale.setlocale(locale.LC_ALL, 'ru_RU')
 	d,m,y = date_of_BD.split('.')
 	user_sign = get_zodiac_sign(d, m)
+	user_sign = RU_EN_SIGNS[user_sign]
 	date_of_BD = ""
 
 	# Тут готовим фрейм с координатами планет по дате
@@ -132,7 +148,7 @@ def vanga_custom():
 	features_df = pd.concat([df_planets,df_ohe],axis=1)
 
 	# В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-	predicted_horo = features_df.values
+	predicted_horo = features_df.values[0][1:]
 
 	return render_template('vanga_custom.html', dates = [user_sign, predicted_horo])
 

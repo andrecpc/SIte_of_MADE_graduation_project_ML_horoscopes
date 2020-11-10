@@ -23,7 +23,7 @@ SIGNS = ["овен",
 	"рыбы",
 ]
 
-PREDICTIONS_DF = pd.read_csv("horoscopes.csv", sep=";", index_col="date")
+PREDICTIONS_DF = pd.read_csv("files/horoscopes.csv", sep=";", index_col="date")
 USER_DICT = {}
 
 app = Flask(__name__)
@@ -50,14 +50,23 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
   else:
     return(get_prediction_from_model(target_date, target_sign))
 
-
+# Рендер главной страницы
 @app.route("/")
 def hello():
 	return render_template('main.html')
 
+# Рендер прогнозов Ванги из файла на сегодня
 @app.route("/vanga_today")
 def vanga_today():
-	return render_template('vanga_today.html')
+	horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
+	sig = [el.capitalize() for el in SIGNS]
+	horos_dict = dict(zip(sig, horos))
+	return render_template('vanga_today.html', horos_dict=horos_dict)
+
+# Рендер прогнозов Ванги на произвольную дату
+@app.route("/vanga_custom")
+def vanga_custom():
+	return render_template('vanga_custom.html')
 
 @app.route('/index')
 def index():

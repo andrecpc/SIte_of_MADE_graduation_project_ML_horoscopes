@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 import logging
 import pandas as pd
+from zodiac_sign import get_zodiac_sign
+import locale
 import json
 import logging
 from datetime import date, timedelta
@@ -66,6 +68,7 @@ def vanga_today():
 # Рендер прогнозов Ванги на произвольную дату
 @app.route("/vanga_custom", methods=['post', 'get'])
 def vanga_custom():
+
 	date_of_BD = ""
 	date_of_horo = ""
 	if request.method == 'POST':
@@ -75,7 +78,13 @@ def vanga_custom():
 		return render_template('vanga_custom.html', dates = False)
 	if date_of_BD == "":
 		return render_template('vanga_custom.html', dates = False)
-	return render_template('vanga_custom.html', dates = [date_of_BD, date_of_horo])
+
+	locale.setlocale(locale.LC_ALL, 'ru_RU')
+	d,m,y = date_of_BD.split('.')
+	user_sign = get_zodiac_sign(d, m)
+	date_of_BD = ""
+
+	return render_template('vanga_custom.html', dates = [user_sign, date_of_horo])
 
 @app.route('/index')
 def index():

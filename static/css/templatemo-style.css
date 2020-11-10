@@ -17,7 +17,7 @@ a:focus {
 body{
     margin:0;
     padding:0;
-    background-image:url(..static/images/back.jpg);
+    /* background-image:url('https://img3.goodfon.ru/original/640x1136/c/45/planety-zvezdy-tumannosti-6188.jpg'); */
     background-repeat:no-repeat;
     background-size:100% 100%;
     font-family: 'Open Sans', sans-serif;
@@ -110,7 +110,7 @@ p {
 .content-item {
     padding-right: 0px;
     padding-left: 0px;
-    min-height:570px !important;
+    min-height:505px !important;
 }
 .content-item p:last-child {
     margin-bottom: 0;
@@ -268,8 +268,8 @@ p {
     padding-right: 0;
 }
 .footer {
-    color:#fff;
-    font-size: 14px;
+    color:#286090;
+    font-size: 18px;
     font-weight: 400;
     padding:48px 0;
 }

@@ -27,10 +27,10 @@ http://www.templatemo.com/tm-477-puzzle
             </div>
             <nav class="main-menu">
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#clients">Clients</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/vanga_today">Ванга</a></li>
+                    <li><a href="#clients">Михалыч</a></li>
+                    <li><a href="#contact">Борис</a></li>
+                    <li><a href="#">API</a></li>
                 </ul>
             </nav>
         </div>
@@ -44,7 +44,7 @@ http://www.templatemo.com/tm-477-puzzle
 
 <div class="text-center footer">
 	<div class="container">
-		Copyright @ 2015 Company Name
+		Выпускной проект MADE ML гороскопы
     </div>
 </div>
 
@@ -56,12 +56,12 @@ http://www.templatemo.com/tm-477-puzzle
 
 // Check scroll position and add/remove background to navbar
 function checkScrollPosition() {
-    if($(window).scrollTop() >= 0) {
+    if($(window).scrollTop() >= 50) {
       $(".fixed-header").addClass("scroll");
   }
-  // else {
-  //     $(".fixed-header").removeClass("scroll");
-  // }
+  else {
+      $(".fixed-header").removeClass("scroll");
+  }
 }
 
 $(document).ready(function () {

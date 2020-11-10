@@ -6,7 +6,7 @@ import json
 import logging
 from datetime import date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, request
 application = Flask(__name__)
 
 SIGNS = ["овен",
@@ -64,9 +64,18 @@ def vanga_today():
 	return render_template('vanga_today.html', horos_dict=horos_dict)
 
 # Рендер прогнозов Ванги на произвольную дату
-@app.route("/vanga_custom")
+@app.route("/vanga_custom", methods=['post', 'get'])
 def vanga_custom():
-	return render_template('vanga_custom.html')
+	date_of_BD = ""
+	date_of_horo = ""
+	if request.method == 'POST':
+		date_of_BD = request.form.get('date1')
+		date_of_horo = request.form.get('date2')
+	if date_of_BD == "дд-мм-гггг":
+		return render_template('vanga_custom.html', dates = False)
+	if date_of_BD == "":
+		return render_template('vanga_custom.html', dates = False)
+	return render_template('vanga_custom.html', dates = [date_of_BD, date_of_horo])
 
 @app.route('/index')
 def index():

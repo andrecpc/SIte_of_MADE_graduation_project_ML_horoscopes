@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import logging
 import pandas as pd
 from zodiac_sign import get_zodiac_sign
+from astropy.time import Time
+from astroquery.jplhorizons import Horizons
 import locale
 import json
 import logging
@@ -25,6 +27,10 @@ SIGNS = ["овен",
 	"рыбы",
 ]
 
+PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
+			'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
+			'Uranus': 799, 'Neptune': 899, 'Pluto': 999}
+
 PREDICTIONS_DF = pd.read_csv("files/horoscopes.csv", sep=";", index_col="date")
 USER_DICT = {}
 
@@ -35,6 +41,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
 
+# Заглушки для предсказательных функций
 def get_prediction_from_model(target_date, target_sign): #Not implemented
   return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу.
   			Отношения, которые в последнее время складывались напряженно,
@@ -55,11 +62,22 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
 # Рендер главной страницы
 @app.route("/")
 def hello():
+	'''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+	Просто рендерим шаблон главной страницы.'''
+
 	return render_template('main.html')
 
 # Рендер прогнозов Ванги из файла на сегодня
 @app.route("/vanga_today")
 def vanga_today():
+	'''На выходе нужен словарь horos_dict с ключами знаками и значениями —
+	предсказанными гороскопами на сегодня. Логика забора данных из
+	датафрейма будет зависить от самого файла. Либо в нем будет всего 12
+	гороскопов на сегодня, и тогда можно брать сразу всё, либо в нем будет
+	разметка по датам, и тогда надо фильтровать по дате. Сегодняшнюю дату
+	можно брать из встроенного питовского time.'''
+
+	# Пока тут заглушка, и просто берется первая строка файл с 12 прогнозами
 	horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
 	sig = [el.capitalize() for el in SIGNS]
 	horos_dict = dict(zip(sig, horos))
@@ -68,7 +86,15 @@ def vanga_today():
 # Рендер прогнозов Ванги на произвольную дату
 @app.route("/vanga_custom", methods=['post', 'get'])
 def vanga_custom():
+	'''Принимает из запроса 2 даты: день рождения и нужный день прогноза.
+	Если значения пришли некорректные, то рендерим страницу с посылом о
+	выборе дат.
+	Если значения пришли нормальные, то определяем знак зодиака по первой дате
+	и готовим фичи для GANа по второй дате.
+	На выходе отдаем рендер страницы, переменную со знаком и предсказание.
+	Пока на предсказание стоит заглушка из фичей в виде координат планет+ohe.'''
 
+	# Тут проверку входных дат делаем
 	date_of_BD = ""
 	date_of_horo = ""
 	if request.method == 'POST':
@@ -79,17 +105,42 @@ def vanga_custom():
 	if date_of_BD == "":
 		return render_template('vanga_custom.html', dates = False)
 
+	# Тут определяем знак зодиака
 	locale.setlocale(locale.LC_ALL, 'ru_RU')
 	d,m,y = date_of_BD.split('.')
 	user_sign = get_zodiac_sign(d, m)
 	date_of_BD = ""
 
-	return render_template('vanga_custom.html', dates = [user_sign, date_of_horo])
+	# Тут готовим фрейм с координатами планет по дате
+	date_of_horo = date_of_horo.replace('.', '-')
+	date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+	date_for_epoch = Time(date_of_horo).jd
+	# Фрейм с координатами планет под выбранную дату (shape (1, 81))
+	df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+	for k, v in PLANETS.items():
+		kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+		df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
 
-@app.route('/index')
-def index():
-	return'<h1>Heroku Deploy</h1>'
+	# Тут готовим ohe фрейм для знака
+	cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+	# Фрейм с ohe знака
+	df_ohe = pd.DataFrame(columns=cls_cols)
+	df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+	df_ohe[user_sign + '_cls'] = 1
 
+	# Тут конкатим итоговый фрейм фич.
+	features_df = pd.concat([df_planets,df_ohe],axis=1)
+
+	# В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+	predicted_horo = features_df.values
+
+	return render_template('vanga_custom.html', dates = [user_sign, predicted_horo])
+
+# @app.route('/index')
+# def index():
+# 	return'<h1>Heroku Deploy</h1>'
+
+# Далее идут Марусины причиндалы
 @app.route("/marusya", methods=['POST', 'GET'])
 def marusya():
 	return "Marusya"

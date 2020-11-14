@@ -82,6 +82,14 @@ def hello():
 
 	return render_template('main.html')
 
+# Рендер страницы справки api
+@app.route("/api")
+def api():
+	'''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+	Просто рендерим шаблон страницы.'''
+
+	return render_template('api.html')
+
 # Рендер прогнозов Ванги из файла на сегодня
 @app.route("/vanga_today")
 def vanga_today():
@@ -151,10 +159,6 @@ def vanga_custom():
 	predicted_horo = features_df.values[0][1:]
 
 	return render_template('vanga_custom.html', dates = [user_sign, predicted_horo])
-
-# @app.route('/index')
-# def index():
-# 	return'<h1>Heroku Deploy</h1>'
 
 # Далее идут Марусины причиндалы
 @app.route("/marusya", methods=['POST', 'GET'])

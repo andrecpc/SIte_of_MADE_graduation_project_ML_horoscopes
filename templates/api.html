@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %} API {% endblock %}
+
+{% block content %}
+<section class="col-md-12 content" id="home">
+  <h1>Документация</h1>
+  <div class="col-lg-6 col-md-6 content-item">
+    <p>Запросы к API ML-Horo выполняются по протоколу HTTPS методом POST. Авторизация не нужна. Входные и выходные структуры данных передаются в теле запроса и ответа в формате JSON. В настоящий момент API работает только для прогнозов Ванги.</p>
+    <p>Отправляйте запросы по адресу https://mlhoro.herokuapp.com/api-request</p>
+    <div class="dev_page_block">
+  <div role="heading" class="wk_header">Формат&nbsp;POST-запроса на URL</div><br>
+Запрос содержит два поля: <br>
+<table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Структура запроса</b></caption>
+
+<tbody>
+<tr><td><b>meta</b><br>
+<span class="wk_gray">object</span></td><td>информация об устройстве, с помощью которого пользователь общается с Марусей. </td></tr>
+<tr><td><b>session</b><br>
+<span class="wk_gray">object</span></td><td>данные о сессии. </td></tr>
+</tbody>
+
+</table> <br>
+<table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Структура объекта meta</b></caption><tbody><tr><td><b>locale</b><br>
+<span class="wk_gray">string</span></td><td>язык в POSIX-формате, максимум 64 символа. </td></tr><tr><td><b>timezone</b><br>
+<span class="wk_gray">string</span></td><td>название часового пояса, включая алиасы, максимум 64 символа </td></tr>
+</tbody></table> <br>
+<table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Структура объекта session</b></caption><tbody><tr><td><b>session_id</b><br>
+<span class="wk_gray">string</span></td><td>уникальный идентификатор сессии, максимум 64 символа. </td></tr><tr><td><b>user_id</b><br>
+<span class="wk_gray">string</span></td><td>идентификатор экземпляра приложения, в котором пользователь общается с Марусей, максимум 64 символа. </td></tr>
+</tbody></table> <br>
+
+<div class="wk_hider_box_opened"><div class="wk_hider_header"><div class="wk_hider_title" onclick="Wiki.switchHider(this)">Пример запроса</div></div><div class="wk_hider_body"><blockquote><tt> <br>
+{ <br>
+&nbsp;&nbsp;"meta": { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"client_id": "MailRu-VC/1.0", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"locale": "ru_RU", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"timezone": "Europe/Moscow", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"interfaces": { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"screen": {} <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;&nbsp;}, <br>
+&nbsp;&nbsp;"request": { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"command": "какая очередь в столовой", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"original_utterance": "какая очередь в столовой", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "SimpleUtterance", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"payload": {}, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"nlu": { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tokens": [ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"какая", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"очередь", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"в", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"столовой" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+&nbsp;&nbsp;}, <br>
+&nbsp;&nbsp;"session": { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"session_id": "574d41e0-a41e-4028-a73a-6f5b5bfed299", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"user_id": "6953b29afe19e372ecdd34d07b3eae3c2f69b9f04e8cb15e157c4a9e056d58ee", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"skill_id": "6861e5a9-4e0f-4660-9331-01f720ddaf5d", <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"new": true, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;"message_id": 0 <br>
+&nbsp;&nbsp;}, <br>
+&nbsp;&nbsp;"version": "1.0" <br>
+}</tt></blockquote> <br>
+</div></div> <a name="2.2 Формат ответа обработчика скилла Марусе"></a><div></div>
+</div>
+  </div>
+</section>
+{% endblock %}

@@ -6,6 +6,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/templatemo-style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename= 'images/fav.ico') }}" type="image/x-icon">
 <!--
 Исходник шаблона взят отсюда
 Puzzle Template
@@ -27,10 +28,10 @@ http://www.templatemo.com/tm-477-puzzle
             </div>
             <nav class="main-menu">
                 <ul>
-                    <li><a href="/vanga_today">Ванга</a></li>
-                    <li><a href="#clients">Михалыч</a></li>
-                    <li><a href="#contact">Борис</a></li>
-                    <li><a href="#">API</a></li>
+                    <li><a href="/#home">Ванга</a></li>
+                    <li><a href="/#mishka">Михалыч</a></li>
+                    <li><a href="/#borya">Борис</a></li>
+                    <li><a href="/api">API</a></li>
                 </ul>
             </nav>
         </div>
@@ -64,25 +65,25 @@ function checkScrollPosition() {
   }
 }
 
-$(document).ready(function () {
-    // Single page nav
-    $('.fixed-header').singlePageNav({
-        offset: 59,
-        filter: ':not(.external)',
-        updateHash: true
-    });
-
-    checkScrollPosition();
-
-    // nav bar
-    $('.navbar-toggle').click(function(){
-        $('.main-menu').toggleClass('show');
-    });
-
-    $('.main-menu a').click(function(){
-        $('.main-menu').removeClass('show');
-    });
-});
+// $(document).ready(function () {
+//     // Single page nav
+//     $('.fixed-header').singlePageNav({
+//         offset: 59,
+//         filter: ':not(.external)',
+//         updateHash: true
+//     });
+//
+//     checkScrollPosition();
+//
+//     // nav bar
+//     $('.navbar-toggle').click(function(){
+//         $('.main-menu').toggleClass('show');
+//     });
+//
+//     $('.main-menu a').click(function(){
+//         $('.main-menu').removeClass('show');
+//     });
+// });
 
 $(window).on("scroll", function() {
     checkScrollPosition();

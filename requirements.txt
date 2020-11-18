@@ -40,3 +40,4 @@ https://download.pytorch.org/whl/cpu/torch-1.7.0%2Bcpu-cp36-cp36m-linux_x86_64.w
 transformers==2.1.1
 urllib3==1.25.11
 gensim==3.8.3
+scikit-learn==0.23.2

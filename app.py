@@ -259,65 +259,61 @@ def api():
 # Обработчик запросов к api
 @app.route("/api-request", methods=['POST'])
 def api_request():
-	'''На странице /api есть документация. Здесь надо сделать тот же
-	функционал, что и для страницы vanga_custom, только на выходе
-	не будем рендерить страницу, а просто возвращать ответ с запрашиваемой
-	информацией.'''
+    '''На странице /api есть документация. Здесь надо сделать тот же
+    функционал, что и для страницы vanga_custom, только на выходе
+    не будем рендерить страницу, а просто возвращать ответ с запрашиваемой
+    информацией.'''
 
-	logging.info("Request: %r", request.json)
-	answer = {}
+    logging.info("Request: %r", request.json)
+    answer = {}
 
-	if request.json['choice'] == 'today':
-		# Выдергиваем из csv 12 прогнозов на сегодня и записываем в словарь,
-		# где ключи знаки, а прогнозы значения. Всё как в vanga_today.
+    if request.json['choice'] == 'today':
+        # Выдергиваем из csv 12 прогнозов на сегодня и записываем в словарь,
+        # где ключи знаки, а прогнозы значения. Всё как в vanga_today.
 
-		# Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
-		horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
-		sig = [el.capitalize() for el in SIGNS]
-		horos_dict = dict(zip(sig, horos))
-		answer["horoscopes"] = horos_dict
+        # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
+        horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
+        sig = [el.capitalize() for el in SIGNS]
+        horos_dict = dict(zip(sig, horos))
+        answer["horoscopes"] = horos_dict
 
-	elif request.json['choice'] == 'custom':
-		# Делаем предсказание по дате и определяем знак как в vanga_custom
+    elif request.json['choice'] == 'custom':
+        # Делаем предсказание по дате и определяем знак как в vanga_custom
 
-		# Тут определяем знак зодиака
-		d,m,y = request.json['period'][0].split('.')
-		user_sign = get_zodiac_sign(d, m)
-		user_sign = RU_EN_SIGNS[user_sign]
+        # Тут определяем знак зодиака
+        d,m,y = request.json['period'][0].split('.')
+        user_sign = get_zodiac_sign(d, m)
+        user_sign = RU_EN_SIGNS[user_sign]
 
-		# Тут готовим фрейм с координатами планет по дате
-		date_of_horo = request.json['period'][1].replace('.', '-')
-		date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
-		date_for_epoch = Time(date_of_horo).jd
-		# Фрейм с координатами планет под выбранную дату (shape (1, 81))
-		df_planets = pd.read_csv("files/planets_template.csv", sep=";")
-		for k, v in PLANETS.items():
-			kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
-			df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
+        # Тут готовим фрейм с координатами планет по дате
+        date_of_horo = request.json['period'][1].replace('.', '-')
+        date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+        date_for_epoch = Time(date_of_horo).jd
+        # Фрейм с координатами планет под выбранную дату (shape (1, 81))
+        df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+        for k, v in PLANETS.items():
+            kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+            df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
 
-		# Тут готовим ohe фрейм для знака
-		cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
-		# Фрейм с ohe знака
-		df_ohe = pd.DataFrame(columns=cls_cols)
-		df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
-		df_ohe[user_sign + '_cls'] = 1
+        # Тут готовим ohe фрейм для знака
+        cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+        # Фрейм с ohe знака
+        df_ohe = pd.DataFrame(columns=cls_cols)
+        df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+        df_ohe[user_sign + '_cls'] = 1
 
-		# Тут конкатим итоговый фрейм фич.
-		features_df = pd.concat([df_planets,df_ohe],axis=1)
+        # Тут конкатим итоговый фрейм фич.
+        features_df = pd.concat([df_planets,df_ohe],axis=1)
 
-		# В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-		predicted_horo = features_df.values[0][1:]
+        # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+        predicted_horo = features_df.values[0][1:]
+        test_results = test_model.get_prediction(np.array([predicted_horo]))
+        answer["detected_sign"] = user_sign
+        answer["horoscope"] = str(test_results[0])
 
-    	# Тут начинается работа моделей
-    	test_results = test_model.get_prediction(np.array([predicted_horo]))
-    	# test_results = test_model.get_prediction(test)
+    logging.info("response %r", answer)
 
-		answer["detected_sign"] = user_sign
-		answer["horoscope"] = str(test_results[0])
-
-	logging.info("response %r", answer)
-
-	return json.dumps (answer, ensure_ascii=False, indent=2)
+    return json.dumps (answer, ensure_ascii=False, indent=2)
 
 # Рендер прогнозов Ванги из файла на сегодня
 @app.route("/vanga_today")

@@ -24,9 +24,9 @@
     {% else %}
       <form method="post" action="{{ url_for('vanga_custom') }}">
         <h4>Выберите дату рождения</h4>
-        <input id="date1" name='date1' type="text" value="дд-мм-гггг" size="10" onClick="xCal(this);" onKeyUp="xCal()" oninput="xCal()">
+        <input id="date1" name='date1' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this);" onKeyUp="xCal()" oninput="xCal()">
         <h4>Выберите день прогноза</h4>
-        <input id="date2" name='date2' type="text" value="дд-мм-гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
+        <input id="date2" name='date2' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
         <hr>
         <input type="submit" class="btn btn-big dark-blue-btn" value="Узнать прогноз">
       </form>

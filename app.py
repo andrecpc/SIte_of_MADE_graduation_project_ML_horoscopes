@@ -430,21 +430,24 @@ def main():
 		today_date = date.today()
 		USER_DICT[request.json['session']['user_id']] = request.json['request']['command']
 		text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
+		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
 
 	elif request.json['request']['command'] == 'на завтра':
 		tomorrow_date = date.today() + timedelta(days=1)
 		if request.json['session']['user_id'] in USER_DICT:
 			text = "Гороскоп на завтра. \n"+get_prediction(str(tomorrow_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-			buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
+			buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
 		else:
 			text = "Какой у Вас знак зодиака?"
+
+    elif request.json['request']['command'] == 'другой знак':
+        text = "Какой знак зодиака Вас интересует?"
 
 	elif request.json['request']['command'] == 'на сегодня':
 		today_date = date.today()
 		if request.json['session']['user_id'] in USER_DICT:
 			text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-			buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
+			buttons = [{"title":"На завтра"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
 		else:
 			text = "Какой у Вас знак зодиака?"
 

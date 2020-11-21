@@ -193,6 +193,23 @@ SIGNS = ["овен",
   "рыбы",
 ]
 
+
+SIGNS_DICT = {
+  0:"main_horo",
+  1:"овен",
+  2:"телец",
+  3:"близнецы",
+  4:"рак",
+  5:"лев",
+  6:"дева",
+  7:"весы",
+  8:"скорпион",
+  9:"козерог",
+  10:"стрелец",
+  11:"водолей",
+  12:"рыбы",
+}
+
 RU_EN_SIGNS = {
   "Aries": 'Овен',
     "Taurus": 'Телец',
@@ -399,9 +416,8 @@ def web():
   logging.info("Request: %r", request.json)
   card = {}
   buttons = []
-  date, sign = request.json['request']['command'].split()
-  USER_DICT[request.json['session']['user_id']] = sign
-  text = get_prediction(date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+  date, sign_idx = request.json['request']['command'].split()
+  text = get_prediction(date, SIGNS_DICT[sign_idx], PREDICTIONS_DF)
   response = {
     "version":request.json['version'],
     'session':request.json['session'],

@@ -180,21 +180,38 @@ test = np.array([[-9.04546430e-01, -4.17748878e-01,  2.38048487e-05,
          0.00000000e+00,  0.00000000e+00,  0.00000000e+00]])
 
 SIGNS = ["овен",
-	"телец",
-	"близнецы",
-	"рак",
-	"лев",
-	"дева",
-	"весы",
-	"скорпион",
-	"козерог",
-	"стрелец",
-	"водолей",
-	"рыбы",
+  "телец",
+  "близнецы",
+  "рак",
+  "лев",
+  "дева",
+  "весы",
+  "скорпион",
+  "козерог",
+  "стрелец",
+  "водолей",
+  "рыбы",
 ]
 
+
+SIGNS_DICT = {
+  '0':"main_horo",
+  '1':"овен",
+  '2':"телец",
+  '3':"близнецы",
+  '4':"рак",
+  '5':"лев",
+  '6':"дева",
+  '7':"весы",
+  '8':"скорпион",
+  '9':"козерог",
+  '10':"стрелец",
+  '11':"водолей",
+  '12':"рыбы",
+}
+
 RU_EN_SIGNS = {
-	"Aries": 'Овен',
+  "Aries": 'Овен',
     "Taurus": 'Телец',
     "Gemini": 'Близнецы',
     "Cancer": 'Рак',
@@ -209,8 +226,8 @@ RU_EN_SIGNS = {
 }
 
 PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
-			'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
-			'Uranus': 799, 'Neptune': 899, 'Pluto': 999}
+      'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
+      'Uranus': 799, 'Neptune': 899, 'Pluto': 999}
 
 PREDICTIONS_DF = pd.read_csv("files/horoscopes.csv", sep=";", index_col="date")
 USER_DICT = {}
@@ -225,14 +242,14 @@ sessionStorage = {}
 # Заглушки для предсказательных функций
 def get_prediction_from_model(target_date, target_sign): #Not implemented
   return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу.
-  			Отношения, которые в последнее время складывались напряженно,
-  			сейчас меняются к лучшему, потому что многие готовы к компромиссам,
-  			стараются сглаживать острые углы и хотят достичь взаимопонимания,
-  			а не только доказать свою правоту.Хочется отложить дела на потом,
-  			отдохнуть. Но важно не забывать об обещаниях, данных раньше.
-  			Постарайтесь сделать все, что запланировали.
-  			Скорее всего, у вас останется достаточно времени и для того,
-  			чтобы немного развлечься, восстановить силы.""")
+        Отношения, которые в последнее время складывались напряженно,
+        сейчас меняются к лучшему, потому что многие готовы к компромиссам,
+        стараются сглаживать острые углы и хотят достичь взаимопонимания,
+        а не только доказать свою правоту.Хочется отложить дела на потом,
+        отдохнуть. Но важно не забывать об обещаниях, данных раньше.
+        Постарайтесь сделать все, что запланировали.
+        Скорее всего, у вас останется достаточно времени и для того,
+        чтобы немного развлечься, восстановить силы.""")
 
 def get_prediction(target_date, target_sign, PREDICTIONS_DF):
   if target_date in PREDICTIONS_DF.index:
@@ -243,18 +260,18 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
 # Рендер главной страницы
 @app.route("/")
 def hello():
-	'''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
-	Просто рендерим шаблон главной страницы.'''
+  '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+  Просто рендерим шаблон главной страницы.'''
 
-	return render_template('main.html')
+  return render_template('main.html')
 
 # Рендер страницы справки api
 @app.route("/api")
 def api():
-	'''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
-	Просто рендерим шаблон страницы.'''
+  '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+  Просто рендерим шаблон страницы.'''
 
-	return render_template('api.html')
+  return render_template('api.html')
 
 # Обработчик запросов к api
 @app.route("/api-request", methods=['POST'])
@@ -318,171 +335,173 @@ def api_request():
 # Рендер прогнозов Ванги из файла на сегодня
 @app.route("/vanga_today")
 def vanga_today():
-	'''На выходе нужен словарь horos_dict с ключами знаками и значениями —
-	предсказанными гороскопами на сегодня. Логика забора данных из
-	датафрейма будет зависить от самого файла. Либо в нем будет всего 12
-	гороскопов на сегодня, и тогда можно брать сразу всё, либо в нем будет
-	разметка по датам, и тогда надо фильтровать по дате. Сегодняшнюю дату
-	можно брать из встроенного питовского time.'''
+  '''На выходе нужен словарь horos_dict с ключами знаками и значениями —
+  предсказанными гороскопами на сегодня. Логика забора данных из
+  датафрейма будет зависить от самого файла. Либо в нем будет всего 12
+  гороскопов на сегодня, и тогда можно брать сразу всё, либо в нем будет
+  разметка по датам, и тогда надо фильтровать по дате. Сегодняшнюю дату
+  можно брать из встроенного питовского time.'''
 
-	# Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
-	horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
-	sig = [el.capitalize() for el in SIGNS]
-	horos_dict = dict(zip(sig, horos))
-	return render_template('vanga_today.html', horos_dict=horos_dict)
+  # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
+  horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
+  sig = [el.capitalize() for el in SIGNS]
+  horos_dict = dict(zip(sig, horos))
+  return render_template('vanga_today.html', horos_dict=horos_dict)
 
 # Рендер прогнозов Ванги на произвольную дату
 @app.route("/vanga_custom", methods=['post', 'get'])
 def vanga_custom():
-	'''Принимает из запроса 2 даты: день рождения и нужный день прогноза.
-	Если значения пришли некорректные, то рендерим страницу с посылом о
-	выборе дат.
-	Если значения пришли нормальные, то определяем знак зодиака по первой дате
-	и готовим фичи для GANа по второй дате.
-	На выходе отдаем рендер страницы, переменную со знаком и предсказание.
-	Пока на предсказание стоит заглушка из фичей в виде координат планет+ohe.'''
+  '''Принимает из запроса 2 даты: день рождения и нужный день прогноза.
+  Если значения пришли некорректные, то рендерим страницу с посылом о
+  выборе дат.
+  Если значения пришли нормальные, то определяем знак зодиака по первой дате
+  и готовим фичи для GANа по второй дате.
+  На выходе отдаем рендер страницы, переменную со знаком и предсказание.
+  Пока на предсказание стоит заглушка из фичей в виде координат планет+ohe.'''
 
-	# Тут проверку входных дат делаем
-	date_of_BD = ""
-	date_of_horo = ""
-	if request.method == 'POST':
-		date_of_BD = request.form.get('date1')
-		date_of_horo = request.form.get('date2')
-	if date_of_BD == "дд-мм-гггг":
-		return render_template('vanga_custom.html', dates = False)
-	if date_of_BD == "":
-		return render_template('vanga_custom.html', dates = False)
+  # Тут проверку входных дат делаем
+  date_of_BD = ""
+  date_of_horo = ""
+  if request.method == 'POST':
+    date_of_BD = request.form.get('date1')
+    date_of_horo = request.form.get('date2')
+  if date_of_BD == "дд-мм-гггг":
+    return render_template('vanga_custom.html', dates = False)
+  if date_of_BD == "":
+    return render_template('vanga_custom.html', dates = False)
 
-	# Тут определяем знак зодиака
-	# locale.setlocale(locale.LC_ALL, 'ru_RU')
-	d,m,y = date_of_BD.split('.')
-	user_sign = get_zodiac_sign(d, m)
-	user_sign = RU_EN_SIGNS[user_sign]
-	date_of_BD = ""
+  # Тут определяем знак зодиака
+  # locale.setlocale(locale.LC_ALL, 'ru_RU')
+  d,m,y = date_of_BD.split('.')
+  user_sign = get_zodiac_sign(d, m)
+  user_sign = RU_EN_SIGNS[user_sign]
+  date_of_BD = ""
 
-	# Тут готовим фрейм с координатами планет по дате
-	date_of_horo = date_of_horo.replace('.', '-')
-	date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
-	date_for_epoch = Time(date_of_horo).jd
-	# Фрейм с координатами планет под выбранную дату (shape (1, 81))
-	df_planets = pd.read_csv("files/planets_template.csv", sep=";")
-	for k, v in PLANETS.items():
-		kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
-		df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
+  # Тут готовим фрейм с координатами планет по дате
+  date_of_horo = date_of_horo.replace('.', '-')
+  date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+  date_for_epoch = Time(date_of_horo).jd
+  # Фрейм с координатами планет под выбранную дату (shape (1, 81))
+  df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+  for k, v in PLANETS.items():
+    kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+    df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
 
-	# Тут готовим ohe фрейм для знака
-	cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
-	# Фрейм с ohe знака
-	df_ohe = pd.DataFrame(columns=cls_cols)
-	df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
-	df_ohe[user_sign + '_cls'] = 1
+  # Тут готовим ohe фрейм для знака
+  cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+  # Фрейм с ohe знака
+  df_ohe = pd.DataFrame(columns=cls_cols)
+  df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+  df_ohe[user_sign + '_cls'] = 1
 
-	# Тут конкатим итоговый фрейм фич.
-	features_df = pd.concat([df_planets,df_ohe],axis=1)
+  # Тут конкатим итоговый фрейм фич.
+  features_df = pd.concat([df_planets,df_ohe],axis=1)
 
-	# В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-	predicted_horo = features_df.values[0][1:]
+  # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+  predicted_horo = features_df.values[0][1:]
 
-	# Тут начинается работа моделей
-	test_results = test_model.get_prediction(np.array([predicted_horo]))
-	# test_results = test_model.get_prediction(test)
+  # Тут начинается работа моделей
+  test_results = test_model.get_prediction(np.array([predicted_horo]))
+  # test_results = test_model.get_prediction(test)
 
-	return render_template('vanga_custom.html', dates = [user_sign, test_results[0]])
+  return render_template('vanga_custom.html', dates = [user_sign, test_results[0]])
 
 # Далее идут Марусины причиндалы
 @app.route("/marusya", methods=['POST', 'GET'])
 def marusya():
-	return "Marusya"
+  return "Marusya"
 
 @app.route("/web", methods=['POST'])
 def web():
-	logging.info("Request: %r", request.json)
-	card = {}
-	buttons = []
-	date, sign = request.json['request']['command'].split()
-	USER_DICT[request.json['session']['user_id']] = sign
-	text = get_prediction(date, USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-	response = {
-		"version":request.json['version'],
-		'session':request.json['session'],
-		"response": {
-			"end_session": False,
-			"text" : text,
-			"card" : card,
-			"buttons" : buttons
-		}
+  logging.info("Request: %r", request.json)
+  card = {}
+  buttons = []
+  date, sign_idx = request.json['request']['command'].split()
+  text = get_prediction(date, SIGNS_DICT[sign_idx], PREDICTIONS_DF)
+  response = {
+    "version":request.json['version'],
+    'session':request.json['session'],
+    "response": {
+      "end_session": False,
+      "text" : text,
+      "card" : card,
+      "buttons" : buttons
+    }
 
-	}
-	logging.info("response %r", response)
+  }
+  logging.info("response %r", response)
 
-	return json.dumps (response, ensure_ascii=False, indent=2)
+  return json.dumps (response, ensure_ascii=False, indent=2)
 
 @app.route("/marussia", methods=['POST'])
 def main():
-	logging.info("Request: %r", request.json)
-	card = {}
-	buttons = []
+  logging.info("Request: %r", request.json)
+  card = {}
+  buttons = []
 
-	if request.json['session']['new']:
-		text = "Привет! Это навык Эй Ай Гороскоп. Какой у Вас знак зодиака?"
+  if request.json['session']['new']:
+    text = "Привет! Это навык Эй Ай Гороскоп. Какой у Вас знак зодиака?"
 
-	elif request.json['request']['command'] in SIGNS:
-		today_date = date.today()
-		USER_DICT[request.json['session']['user_id']] = request.json['request']['command']
-		text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-		buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
+  elif request.json['request']['command'] in SIGNS:
+    today_date = date.today()
+    USER_DICT[request.json['session']['user_id']] = request.json['request']['command']
+    text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+    buttons = [{"title":"На завтра"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
 
-	elif request.json['request']['command'] == 'на завтра':
-		tomorrow_date = date.today() + timedelta(days=1)
-		if request.json['session']['user_id'] in USER_DICT:
-			text = "Гороскоп на завтра. \n"+get_prediction(str(tomorrow_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-			buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}]
-		else:
-			text = "Какой у Вас знак зодиака?"
+  elif request.json['request']['command'] == 'на завтра':
+    tomorrow_date = date.today() + timedelta(days=1)
+    if request.json['session']['user_id'] in USER_DICT:
+      text = "Гороскоп на завтра. \n"+get_prediction(str(tomorrow_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+      buttons = [{"title":"На сегодня"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
+    else:
+      text = "Какой у Вас знак зодиака?"
 
-	elif request.json['request']['command'] == 'на сегодня':
-		today_date = date.today()
-		if request.json['session']['user_id'] in USER_DICT:
-			text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
-			buttons = [{"title":"На завтра"}, {"title":"На другую дату"}]
-		else:
-			text = "Какой у Вас знак зодиака?"
+  elif request.json['request']['command'] == 'другой знак':
+        text = "Какой знак зодиака Вас интересует?"
 
-	elif request.json['request']['command'] == 'на другую дату':
-		text = 'На какую дату?'
+  elif request.json['request']['command'] == 'на сегодня':
+    today_date = date.today()
+    if request.json['session']['user_id'] in USER_DICT:
+      text = "Гороскоп на сегодня. \n"+get_prediction(str(today_date), USER_DICT[request.json['session']['user_id']], PREDICTIONS_DF)
+      buttons = [{"title":"На завтра"}, {"title":"На другую дату"}, {"title":"Другой знак"}]
+    else:
+      text = "Какой у Вас знак зодиака?"
 
-	elif request.json['request']['command'] == 'on_interrupt':
-		text = 'Пока!'
+  elif request.json['request']['command'] == 'на другую дату':
+    text = 'На какую дату?'
 
-	else:
-		text = request.json['request']['command']
-	response = {
-		"version":request.json['version'],
-		'session':request.json['session'],
-		"response": {
-			"end_session": False,
-			"text" : text,
-			"card" : card,
-			"buttons" : buttons
-		}
+  elif request.json['request']['command'] == 'on_interrupt':
+    text = 'Пока!'
 
-	}
-	logging.info("response %r", response)
+  else:
+    text = request.json['request']['command']
+  response = {
+    "version":request.json['version'],
+    'session':request.json['session'],
+    "response": {
+      "end_session": False,
+      "text" : text,
+      "card" : card,
+      "buttons" : buttons
+    }
 
-	return json.dumps (response, ensure_ascii=False, indent=2)
+  }
+  logging.info("response %r", response)
+
+  return json.dumps (response, ensure_ascii=False, indent=2)
 
 
 @app.route("/debug", methods=['POST'])
 def debug():
-	response = {
-	"version":request.json['version'],
-	'session':request.json['session'],
-	"response": {
-		"end_session": False,
-		"text" : "hi"
-	}}
-	return response
+  response = {
+  "version":request.json['version'],
+  'session':request.json['session'],
+  "response": {
+    "end_session": False,
+    "text" : "hi"
+  }}
+  return response
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+  app.run(debug=True)

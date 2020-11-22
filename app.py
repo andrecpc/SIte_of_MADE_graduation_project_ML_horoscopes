@@ -16,6 +16,7 @@ from flask import Flask, request, render_template, request
 application = Flask(__name__)
 
 import numpy as np
+
 from generate_transformers_4 import HoroModel
 
 test_model = HoroModel(gen_path='gen_500000',

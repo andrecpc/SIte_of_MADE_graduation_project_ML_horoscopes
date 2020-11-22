@@ -10,7 +10,7 @@ from astroquery.jplhorizons import Horizons
 # import locale
 import json
 import logging
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request, render_template, request
 application = Flask(__name__)
@@ -20,7 +20,7 @@ import numpy as np
 from generate_transformers_4 import HoroModel
 
 test_model = HoroModel(gen_path='gen_500000',
-                       gpt_path ='sberbank-ai/rugpt3small_based_on_gpt2', # 'sberbank-ai/rugpt3small_based_on_gpt2', 'sberbank-ai/rugpt3large_based_on_gpt2'
+                       gpt_path ='sberbank-ai/rugpt3small_based_on_gpt2', # 'sberbank-ai/rugpt3small_based_on_gpt2', 'sberbank-ai/rugpt3large_based_on_gpt2', 'model'
                        scaler_path = 'datatransformer.pickle',
                        kv_path = "model_rusvectores.model")
 
@@ -224,6 +224,8 @@ RU_EN_SIGNS = {
     "Capricorn": 'Козерог',
     "Aquarius": 'Водолей',
     "Pisces": 'Рыбы',
+
+    "Lion": 'Лев',
 }
 
 PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
@@ -257,6 +259,10 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF):
     return(PREDICTIONS_DF.loc[target_date,target_sign])
   else:
     return(get_prediction_from_model(target_date, target_sign))
+
+#
+# Первая версия сайта
+#
 
 # Рендер главной страницы
 @app.route("/")
@@ -406,6 +412,44 @@ def vanga_custom():
   # test_results = test_model.get_prediction(test)
 
   return render_template('vanga_custom.html', dates = [user_sign, test_results[0]])
+
+#
+# Вторая версия сайта
+#
+
+# Главная страница с общим прогнозом на сегодня
+@app.route('/index')
+@app.route('/index/<oracle>/<date>')
+@app.route('/index/<oracle>/<date>/<sign>')
+def index(sign='main_horo', oracle='vanga', date='today'):
+    # 2020-11-22
+    if sign != 'main_horo':
+        sign = RU_EN_SIGNS[sign.capitalize()].lower()
+
+    if date == 'today':
+        dd = datetime.now()
+        label = 'сегодня'
+    if date == 'tomorrow':
+        dd = datetime.now() + timedelta(days=1)
+        label = 'завтра'
+    if date == 'yesterday':
+        dd = datetime.now() - timedelta(days=1)
+        label = 'вчера'
+
+    day = '-'.join(map(str,[dd.year, dd.month, dd.day]))
+    df = pd.read_csv("files/horoscopes.csv", sep=";")
+    main_horo = df.loc[df['date']==day][sign].values[0]
+    return render_template("index.html", main_horo=main_horo, day=day, sign=sign.capitalize(), label=label, date=date)
+
+# Рендер страницы экспертов
+@app.route('/index/experts')
+def experts():
+    return render_template("experts.html")
+
+# Рендер страницы справки api
+@app.route("/index/api")
+def api2():
+  return render_template('api2.html')
 
 # Далее идут Марусины причиндалы
 @app.route("/marusya", methods=['POST', 'GET'])

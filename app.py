@@ -420,26 +420,44 @@ def vanga_custom():
 # Главная страница с общим прогнозом на сегодня
 @app.route('/index')
 @app.route('/index/<oracle>/<date>')
-@app.route('/index/<oracle>/<date>/<sign>')
+@app.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
 def index(sign='main_horo', oracle='vanga', date='today'):
-    # 2020-11-22
-    if sign != 'main_horo':
-        sign = RU_EN_SIGNS[sign.capitalize()].lower()
 
-    if date == 'today':
-        dd = datetime.now()
-        label = 'сегодня'
-    if date == 'tomorrow':
-        dd = datetime.now() + timedelta(days=1)
-        label = 'завтра'
-    if date == 'yesterday':
-        dd = datetime.now() - timedelta(days=1)
-        label = 'вчера'
+    if request.method != 'POST':
+        # 2020-11-22
+        if sign != 'main_horo':
+            sign = RU_EN_SIGNS[sign.capitalize()].lower()
 
-    day = '-'.join(map(str,[dd.year, dd.month, dd.day]))
-    df = pd.read_csv("files/horoscopes.csv", sep=";")
-    main_horo = df.loc[df['date']==day][sign].values[0]
-    return render_template("index.html", main_horo=main_horo, day=day, sign=sign.capitalize(), label=label, date=date)
+        if date in ['today' , 'custom']:
+            dd = datetime.now()
+            label = 'сегодня'
+        if date == 'tomorrow':
+            dd = datetime.now() + timedelta(days=1)
+            label = 'завтра'
+        if date == 'yesterday':
+            dd = datetime.now() - timedelta(days=1)
+            label = 'вчера'
+
+        day = '-'.join(map(str,[dd.year, dd.month, dd.day]))
+        df = pd.read_csv("files/horoscopes.csv", sep=";")
+        main_horo = df.loc[df['date']==day][sign].values[0]
+
+        if date == 'custom':
+            main_horo = 'Выберите дату, а потом нажмите на нужный знак зодиака'
+            day = ''
+            # sign = ''
+            label = 'произвольный день'
+        return render_template("index.html", main_horo=main_horo, day=day, sign=sign.capitalize(), label=label, date=date)
+    else:
+        date_of_horo = request.form.get('date2')
+        date_of_horo = date_of_horo.replace('.', '-')
+        date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+
+        main_horo = 'Заглушка прогноза для даты '+ str(date_of_horo)
+        day = ''
+        sign = ''
+        label = 'произвольный день'
+        return render_template("index.html", main_horo=main_horo, day=day, sign=sign.capitalize(), label=label, date=date)
 
 # Рендер страницы экспертов
 @app.route('/index/experts')

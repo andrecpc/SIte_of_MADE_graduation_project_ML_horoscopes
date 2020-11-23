@@ -7,15 +7,11 @@
 
 {% block content %}
 
-<html>
-<head>
-  <style>
-    li {
-      display: inline;
-    }
-  </style>
-</head>
-</html>
+<script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
+<link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
+<script type="text/javascript" src="js/cssworld.ru-xcal.js"></script>
+
+
 <section class="col-md-12 content" id="home">
    <div id="header">
      <div class="experts">
@@ -65,6 +61,12 @@
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/vanga/custom">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
          {% elif label=='вчера' %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
@@ -82,6 +84,38 @@
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/vanga/custom">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+
+         {% elif label=='произвольный день' %}
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/vanga/yesterday">
+             <span style="font-weight:600;font-size:15px;">На вчера</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index">
+             <span style="font-weight:600;font-size:15px;">На сегодня</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/vanga/tomorrow">
+             <span style="font-weight:600;font-size:15px;">На завтра</span>
+           </a>
+         </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index/vanga/custom">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+
+
          {% else %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #777;" href="/index/vanga/yesterday">
@@ -99,16 +133,18 @@
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/vanga/custom">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
          {% endif %}
 
 
 
 
-         <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/search_day">
-             <span style="font-weight:600;font-size:15px;">На дату</span>
-           </a>
-         </li>
+
        </ul>
      </div>
   </div>
@@ -730,29 +766,85 @@
                                                   01 января - 31 декабря
                                                   {% else %} {{ '' }}
                                                   {% endif %}</div>
-      <div style="font-weight:600;
-                font-size:15px;
-                line-height:1.9;
-                color: #000;
-                letter-spacing:normal;
-                -webkit-font-smoothing:antialiased;
-                margin-top:0px;
-                margin:0px" class="css-20fxiad2">"Прогноз от Ванги на {{ label }} {{ day }}</div>
-      <div style="font-weight:400;
-                font-size:18px;
-                line-height:1.4;
-                color: #333;
-                letter-spacing:normal;
-                -webkit-font-smoothing:antialiased;
-                margin-top:0px;
-                text-align:justify;
-                margin:0px" class="css-20fxiad3">{{ main_horo }}</div>
+
+                                                  {% if label != 'произвольный день' %}
+                                                  <div style="font-weight:600;
+                                                            font-size:15px;
+                                                            line-height:1.9;
+                                                            color: #000;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            margin:0px" class="css-20fxiad2">Прогноз от Ванги на {{ label }} {{ day }}</div>
+                                                  <div style="font-weight:400;
+                                                            font-size:18px;
+                                                            line-height:1.4;
+                                                            color: #333;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            text-align:justify;
+                                                            margin:0px" class="css-20fxiad3">{{ main_horo }}</div>
+
+
+                                                  {% else %}
+                                                  {% if main_horo != 'Выберите дату, а потом нажмите на нужный знак зодиака' %}
+                                                  <section class="col-md-12 content" id="home">
+                                                  <div class="col-lg-6 col-md-6 content-item">
+                                                  <p>Ваш прогноз: {{ main_horo }}</p>
+                                                  <form method="get" action="/index/vanga/custom">
+                                                    <hr>
+                                                    <input type="submit" class="btn btn-big dark-blue-btn" value="Попробовать еще раз">
+                                                  </form>
+                                                </div>
+                                              </section>
+
+                                              {% else %}
+                                                  <section class="col-md-12 content" id="home">
+                                                    <div class="col-lg-6 col-md-6 content-item">
+                                                    <form method="post" action="">
+                                                      <h4>Выберите знак, потом дату и нажмите на кнопку</h4>
+                                                      <!-- <h5>Пока у вас выбран знак {{ sign }}</h5> -->
+                                                      <input id="date2" name='date2' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
+                                                      <hr>
+                                                      <input type="submit" class="btn btn-big dark-blue-btn" value="Узнать прогноз">
+                                                    </form>
+                                                  </div>
+                                                </section>
+                                                  {% endif %}
+                                                  {% endif %}
+
     </div>
   </div>
 
 
 </section>
 
+{% if sign=='Овен' %}
+<script type="text/javascript"> document.getElementsByClassName('css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Телец' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Близнецы' %}
+<script type="text/javascript"> document.getElementsByClassName('css-10fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Рак' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Лев' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Дева' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Весы' %}
+<script type="text/javascript"> document.getElementsByClassName('css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Скорпион' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Стрелец' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Козерог' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Водолей' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% elif sign=='Рыбы' %}
+<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+{% endif %}
 
 
 {% endblock %}

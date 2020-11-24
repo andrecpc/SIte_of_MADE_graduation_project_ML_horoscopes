@@ -8,8 +8,10 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/templatemo-style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename= 'images/fav.ico') }}" type="image/x-icon">
-    <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/cssworld.ru-xcal.css') }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename= 'js/cssworld.ru-xcal.js') }}"></script>
+    <script src="//github.com/elderfadeev/js-datepicker/blob/master/cssworld.ru-xcal-en.js"></script>
 <!--
 Исходник шаблона взят отсюда
 Puzzle Template
@@ -55,6 +57,7 @@ http://www.templatemo.com/tm-477-puzzle
 <script src="static/js/jquery.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
 <script src="static/js/jquery.singlePageNav.min.js"></script>
+<script src="static/js/cssworld.ru-xcal.js"></script>
 
 <script>
 

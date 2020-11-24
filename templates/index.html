@@ -6,12 +6,8 @@
 
 
 {% block content %}
-
-<script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
-<link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
-<script type="text/javascript" src="js/cssworld.ru-xcal.js"></script>
-
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//github.com/elderfadeev/js-datepicker/blob/master/cssworld.ru-xcal-en.js"></script>
 <section class="col-md-12 content" id="home">
    <div id="header">
      <div class="experts">
@@ -175,7 +171,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="aries-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -223,7 +219,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="taurus-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -271,7 +267,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="gemini-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -319,7 +315,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="cancer-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -367,7 +363,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="lion-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -415,7 +411,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="virgo-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -463,7 +459,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="libra-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -511,7 +507,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="scorpio-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -559,7 +555,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="sagittarius-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -607,7 +603,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="capricorn-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -655,7 +651,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="aquarius-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -703,7 +699,7 @@
               -webkit-box-align:center;
               align-items:center;
               -webkit-box-pack:center;
-              justify-content:center;" class="css-1k019wu">
+              justify-content:center;" class="pisces-css-1k019wu">
                 <div style="display:flex;
                 border-radius:4px;
                 height:100px;
@@ -800,10 +796,13 @@
                                               </section>
 
                                               {% else %}
+
                                                   <section class="col-md-12 content" id="home">
                                                     <div class="col-lg-6 col-md-6 content-item">
                                                     <form method="post" action="">
                                                       <h4>Выберите знак, потом дату и нажмите на кнопку</h4>
+                                                      <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
+                                                      <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
                                                       <!-- <h5>Пока у вас выбран знак {{ sign }}</h5> -->
                                                       <input id="date2" name='date2' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
                                                       <hr>
@@ -820,30 +819,35 @@
 
 </section>
 
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/jquery.singlePageNav.min.js"></script>
+<script src="static/js/cssworld.ru-xcal.js"></script>
+
 {% if sign=='Овен' %}
-<script type="text/javascript"> document.getElementsByClassName('css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('aries-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Телец' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('taurus-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Близнецы' %}
-<script type="text/javascript"> document.getElementsByClassName('css-10fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('gemini-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Рак' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('cancer-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Лев' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('lion-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Дева' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('virgo-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Весы' %}
-<script type="text/javascript"> document.getElementsByClassName('css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('libra-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Скорпион' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('scorpio-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Стрелец' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('sagittarius-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Козерог' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('capricorn-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Водолей' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('aquarius-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% elif sign=='Рыбы' %}
-<script type="text/javascript"> document.getElementsByClassName('css-12fxiad')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('pisces-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
 {% endif %}
 
 

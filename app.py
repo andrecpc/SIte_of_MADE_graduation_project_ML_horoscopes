@@ -418,9 +418,9 @@ def vanga_custom():
 #
 
 # Главная страница с общим прогнозом на сегодня
+@app.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
 @app.route('/index')
 @app.route('/index/<oracle>/<date>')
-@app.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
 def index(sign='main_horo', oracle='vanga', date='today'):
 
     if request.method != 'POST':
@@ -453,7 +453,7 @@ def index(sign='main_horo', oracle='vanga', date='today'):
         date_of_horo = date_of_horo.replace('.', '-')
         date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
 
-        main_horo = 'Заглушка прогноза для даты '+ str(date_of_horo)
+        main_horo = 'Заглушка прогноза для даты '+ str(date_of_horo) + ' для знака ' + str(RU_EN_SIGNS[sign.capitalize()].lower())
         day = ''
         sign = ''
         label = 'произвольный день'

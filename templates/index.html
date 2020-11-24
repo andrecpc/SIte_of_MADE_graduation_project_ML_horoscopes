@@ -42,71 +42,71 @@
        <ul>
          {% if label=='сегодня' %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/yesterday">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На вчера</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
-           border-bottom: 3px solid #ff22b0;" href="/index">
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На сегодня</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/tomorrow">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
 
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/custom">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На дату</span>
            </a>
          </li>
          {% elif label=='вчера' %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
-           border-bottom: 3px solid #ff22b0;" href="/index/vanga/yesterday">
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На вчера</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На сегодня</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/tomorrow">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
 
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/custom">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На дату</span>
            </a>
          </li>
 
          {% elif label=='произвольный день' %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/yesterday">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На вчера</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На сегодня</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/tomorrow">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
 
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
-           border-bottom: 3px solid #ff22b0;" href="/index/vanga/custom">
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На дату</span>
            </a>
          </li>
@@ -114,32 +114,28 @@
 
          {% else %}
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/yesterday">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На вчера</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На сегодня</span>
            </a>
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
-           border-bottom: 3px solid #ff22b0;" href="/index/vanga/tomorrow">
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На завтра</span>
            </a>
          </li>
 
          <li style="display: inline-block;margin: 5px 25px 0 0;">
-           <a style="color: #777;" href="/index/vanga/custom">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
              <span style="font-weight:600;font-size:15px;">На дату</span>
            </a>
          </li>
          {% endif %}
-
-
-
-
 
        </ul>
      </div>
@@ -154,7 +150,7 @@
           grid-template-columns:repeat(auto-fill,minmax(120px,auto));
           gap:12px 10px;
           padding:0px 14px 14px;" class="css-sgwm28">
-            <a class="aries" data-tooltip="Овен" href="/index/vanga/{{ date  }}/aries">
+            <a class="aries" data-tooltip="Овен" href="/index/{{ oracle }}/{{ date  }}/aries">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -202,7 +198,7 @@
               </div>
             </a>
 
-            <a class="taurus act" data-tooltip="Телец" href="/index/vanga/{{ date  }}/taurus">
+            <a class="taurus act" data-tooltip="Телец" href="/index/{{ oracle }}/{{ date  }}/taurus">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -250,7 +246,7 @@
               </div>
             </a>
 
-            <a class="gemini" data-tooltip="Близнецы" href="/index/vanga/{{ date  }}/gemini">
+            <a class="gemini" data-tooltip="Близнецы" href="/index/{{ oracle }}/{{ date  }}/gemini">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -298,7 +294,7 @@
               </div>
             </a>
 
-            <a class="cancer" data-tooltip="Рак" href="/index/vanga/{{ date  }}/cancer">
+            <a class="cancer" data-tooltip="Рак" href="/index/{{ oracle }}/{{ date  }}/cancer">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -346,7 +342,7 @@
               </div>
             </a>
 
-            <a class="lion" data-tooltip="Лев" href="/index/vanga/{{ date  }}/lion">
+            <a class="lion" data-tooltip="Лев" href="/index/{{ oracle }}/{{ date  }}/lion">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -394,7 +390,7 @@
               </div>
             </a>
 
-            <a class="virgo" data-tooltip="Дева" href="/index/vanga/{{ date  }}/virgo">
+            <a class="virgo" data-tooltip="Дева" href="/index/{{ oracle }}/{{ date  }}/virgo">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -442,7 +438,7 @@
               </div>
             </a>
 
-            <a class="libra" data-tooltip="Весы" href="/index/vanga/{{ date  }}/libra">
+            <a class="libra" data-tooltip="Весы" href="/index/{{ oracle }}/{{ date  }}/libra">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -490,7 +486,7 @@
               </div>
             </a>
 
-            <a class="scorpio" data-tooltip="Скорпион" href="/index/vanga/{{ date  }}/scorpio">
+            <a class="scorpio" data-tooltip="Скорпион" href="/index/{{ oracle }}/{{ date  }}/scorpio">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -538,7 +534,7 @@
               </div>
             </a>
 
-            <a class="sagittarius" data-tooltip="Стрелец" href="/index/vanga/{{ date  }}/sagittarius">
+            <a class="sagittarius" data-tooltip="Стрелец" href="/index/{{ oracle }}/{{ date  }}/sagittarius">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -586,7 +582,7 @@
               </div>
             </a>
 
-            <a class="capricorn" data-tooltip="Козерог" href="/index/vanga/{{ date  }}/capricorn">
+            <a class="capricorn" data-tooltip="Козерог" href="/index/{{ oracle }}/{{ date  }}/capricorn">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -634,7 +630,7 @@
               </div>
             </a>
 
-            <a class="aquarius" data-tooltip="Водолей" href="/index/vanga/{{ date  }}/aquarius">
+            <a class="aquarius" data-tooltip="Водолей" href="/index/{{ oracle }}/{{ date  }}/aquarius">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -682,7 +678,7 @@
               </div>
             </a>
 
-            <a class="pisces" data-tooltip="Рыбы" href="/index/vanga/{{ date  }}/pisces">
+            <a class="pisces" data-tooltip="Рыбы" href="/index/{{ oracle }}/{{ date  }}/pisces">
               <div style="position:relative;
               display:flex;
               cursor:pointer;
@@ -760,7 +756,30 @@
                 margin-top:0px;
                 margin:0px" class="css-20fxiad">{% if sign=='Main_horo' %}
                                                   01 января - 31 декабря
-                                                  {% else %} {{ '' }}
+                                                  {% elif sign=='Овен' %}
+                                                  20 марта - 19 апреля
+                                                  {% elif sign=='Телец' %}
+                                                  20 апреля - 20 мая
+                                                  {% elif sign=='Близнецы' %}
+                                                  21 мая - 20 июня
+                                                  {% elif sign=='Рак' %}
+                                                  21 июня - 21 июля
+                                                  {% elif sign=='Лев' %}
+                                                  22 июля - 22 августа
+                                                  {% elif sign=='Дева' %}
+                                                  23 августа - 22 сентября
+                                                  {% elif sign=='Весы' %}
+                                                  23 сентября - 22 октября
+                                                  {% elif sign=='Скорпион' %}
+                                                  23 октября - 21 ноября
+                                                  {% elif sign=='Стрелец' %}
+                                                  22 ноября - 21 декабря
+                                                  {% elif sign=='Козерог' %}
+                                                  22 декабря - 20 января
+                                                  {% elif sign=='Водолей' %}
+                                                  21 января - 18 февраля
+                                                  {% elif sign=='Рыбы' %}
+                                                  19 февраля - 19 марта
                                                   {% endif %}</div>
 
                                                   {% if label != 'произвольный день' %}
@@ -785,31 +804,98 @@
 
                                                   {% else %}
                                                   {% if main_horo != 'Выберите дату, а потом нажмите на нужный знак зодиака' %}
-                                                  <section class="col-md-12 content" id="home">
-                                                  <div class="col-lg-6 col-md-6 content-item">
-                                                  <p>Ваш прогноз: {{ main_horo }}</p>
-                                                  <form method="get" action="/index/vanga/custom">
-                                                    <hr>
-                                                    <input type="submit" class="btn btn-big dark-blue-btn" value="Попробовать еще раз">
+                                                  <div style="display:flex;
+                                                    border-left:0px solid #e1e1e1;
+                                                    width:500px;
+                                                    -webkit-box-orient:vertical;
+                                                    -webkit-box-direction:normal;
+                                                    -webkit-flex-direction:column;" class="css-k1imtx">
+                                                    <!-- <h1 style="font-weight:800;
+                                                      font-size:40px;
+                                                      line-height:1.7;
+                                                      color: #000;
+                                                      letter-spacing:normal;
+                                                      -webkit-font-smoothing:antialiased;
+                                                      margin-top:3px;
+                                                      margin:0px" class="css-20fxiad">{{ sign }}</h1> -->
+                                                    <!-- <div style="font-weight:350;
+                font-size:20px;
+                line-height:1.3;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:0px;
+                margin:0px" class="css-20fxiad">{% if sign=='Main_horo' %}
+                                                      01 января - 31 декабря
+                                                     {% elif sign=='Овен' %}
+                                                      20 марта - 19 апреля
+                                                      {% elif sign=='Телец' %}
+                                                      20 апреля - 20 мая
+                                                      {% elif sign=='Близнецы' %}
+                                                      21 мая - 20 июня
+                                                      {% elif sign=='Рак' %}
+                                                      21 июня - 21 июля
+                                                      {% elif sign=='Лев' %}
+                                                      22 июля - 22 августа
+                                                      {% elif sign=='Дева' %}
+                                                      23 августа - 22 сентября
+                                                      {% elif sign=='Весы' %}
+                                                      23 сентября - 22 октября
+                                                      {% elif sign=='Скорпион' %}
+                                                      23 октября - 21 ноября
+                                                      {% elif sign=='Стрелец' %}
+                                                      22 ноября - 21 декабря
+                                                      {% elif sign=='Козерог' %}
+                                                      22 декабря - 20 января
+                                                      {% elif sign=='Водолей' %}
+                                                      21 января - 18 февраля
+                                                      {% elif sign=='Рыбы' %}
+                                                      19 февраля - 19 марта
+                                                      {% endif %}</div> -->
+
+                                                  <div style="font-weight:600;
+                                                            font-size:15px;
+                                                            line-height:1.9;
+                                                            color: #000;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            margin:0px" class="css-20fxiad2">Прогноз от Ванги на выбранную дату, {{ day }}</div>
+                                                  <div style="font-weight:400;
+                                                            font-size:18px;
+                                                            line-height:1.4;
+                                                            color: #333;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            text-align:justify;
+                                                            margin:0px" class="css-20fxiad3">{{ main_horo }}</div>
+
+                                                  <form method="get" action="/index/{{ oracle }}/custom/{{ sign_2 }}">
+
+                                                    <input type="submit" class="btn btn-big dark-blue-btn" style="background-image: url({{ url_for('static', filename='images/stars.jpg') }}" value="Попробовать еще раз">
                                                   </form>
-                                                </div>
-                                              </section>
+                                                  </div>
+
 
                                               {% else %}
 
-                                                  <section class="col-md-12 content" id="home">
+                                                  <section class="col-md-12 content" style="padding-top: 0.5em;" id="home_2">
                                                     <div class="col-lg-6 col-md-6 content-item">
                                                     <form method="post" action="">
-                                                      <h4>Выберите знак, потом дату и нажмите на кнопку</h4>
+                                                      <h4 style="width:510px">Выберите знак зодиака, потом укажите дату прогноза и узнайте будущее</h4>
                                                       <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
                                                       <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
                                                       <!-- <h5>Пока у вас выбран знак {{ sign }}</h5> -->
                                                       <input id="date2" name='date2' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
-                                                      <hr>
-                                                      <input type="submit" class="btn btn-big dark-blue-btn" value="Узнать прогноз">
+
+                                                      <input type="submit" class="btn btn-big dark-blue-btn" style="background-image: url({{ url_for('static', filename='images/stars.jpg') }})" value="Узнать прогноз">
                                                     </form>
                                                   </div>
                                                 </section>
+
+
+
                                                   {% endif %}
                                                   {% endif %}
 
@@ -825,29 +911,29 @@
 <script src="static/js/cssworld.ru-xcal.js"></script>
 
 {% if sign=='Овен' %}
-<script type="text/javascript"> document.getElementsByClassName('aries-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('aries-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Телец' %}
-<script type="text/javascript"> document.getElementsByClassName('taurus-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('taurus-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Близнецы' %}
-<script type="text/javascript"> document.getElementsByClassName('gemini-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('gemini-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Рак' %}
-<script type="text/javascript"> document.getElementsByClassName('cancer-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('cancer-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Лев' %}
-<script type="text/javascript"> document.getElementsByClassName('lion-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('lion-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Дева' %}
-<script type="text/javascript"> document.getElementsByClassName('virgo-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('virgo-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Весы' %}
-<script type="text/javascript"> document.getElementsByClassName('libra-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('libra-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Скорпион' %}
-<script type="text/javascript"> document.getElementsByClassName('scorpio-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('scorpio-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Стрелец' %}
-<script type="text/javascript"> document.getElementsByClassName('sagittarius-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('sagittarius-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Козерог' %}
-<script type="text/javascript"> document.getElementsByClassName('capricorn-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('capricorn-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Водолей' %}
-<script type="text/javascript"> document.getElementsByClassName('aquarius-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('aquarius-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% elif sign=='Рыбы' %}
-<script type="text/javascript"> document.getElementsByClassName('pisces-css-1k019wu')[0].style.backgroundColor='#F3D2D2' </script>
+<script type="text/javascript"> document.getElementsByClassName('pisces-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
 {% endif %}
 
 

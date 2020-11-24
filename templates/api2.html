@@ -23,18 +23,26 @@
 
 </table> <br>
 <table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Варианты значений объекта choice</b></caption><tbody><tr><td><b>today</b><br>
-<span class="wk_gray">string</span></td><td>Запросит прогноз по всем знакам на сегодня. </td></tr><tr><td><b>custom</b><br>
+<span class="wk_gray">string</span></td><td>Запросит прогноз по всем знакам на сегодня. </td></tr>
+
+<tr><td><b>tomorrow</b><br>
+<span class="wk_gray">string</span></td><td>Запросит прогноз по всем знакам на завтра. </td></tr>
+
+<tr><td><b>yesterday</b><br>
+<span class="wk_gray">string</span></td><td>Запросит прогноз по всем знакам на вчера. </td></tr>
+
+<tr><td><b>custom</b><br>
 <span class="wk_gray">string</span></td><td>Запросит прогноз по одному знаку на выбранный день. </td></tr>
 </tbody></table> <br>
 <table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Структура объекта period</b></caption><tbody><tr><td><b>[]</b><br>
-<span class="wk_gray">list</span></td><td>Пустой список для ситуации с запросом на сегодня для всех знаков ('choice': 'today'). </td></tr><tr><td><b>[birthday, forecast_day]</b><br>
-<span class="wk_gray">list of string</span></td><td>Дата рождения и дата прогноза в формате 'дд.мм.гггг'. </td></tr>
+<span class="wk_gray">list</span></td><td>Пустой список для ситуации с запросом на сегодня/завтра/вчера для всех знаков (например 'choice': 'today'). </td></tr><tr><td><b>[sign, forecast_day]</b><br>
+<span class="wk_gray">list of string</span></td><td>Знак гороскопа и дата прогноза в формате 'дд.мм.гггг'. </td></tr>
 </tbody></table> <br>
 
 <div class="wk_hider_box_opened"><div class="wk_hider_header"><div class="wk_hider_title" onclick="Wiki.switchHider(this)">Пример запроса</div></div><div class="wk_hider_body"><blockquote><tt>
 { <br>
 &nbsp;&nbsp;"choice": "custom", <br>
-&nbsp;&nbsp;"period": ["01.01.1900", "01.01.2021"] <br>
+&nbsp;&nbsp;"period": ["gemini", "01.01.2021"] <br>
 }</tt></blockquote> <br>
 </div></div>
 <div class="wk_hider_box_opened"><div class="wk_hider_header"><div class="wk_hider_title" onclick="Wiki.switchHider(this)">Пример запроса</div></div><div class="wk_hider_body"><blockquote><tt>
@@ -53,6 +61,7 @@
 
 <div class="wk_hider_box_opened"><div class="wk_hider_header"><div class="wk_hider_title" onclick="Wiki.switchHider(this)">Пример ответа для запроса на сегодня</div></div><div class="wk_hider_body"><blockquote><tt>
 { <br>
+&nbsp;&nbsp;"date": "2020-11-23", <br>
 &nbsp;&nbsp;"horoscopes": { <br>
 &nbsp;&nbsp;&nbsp;"Овен": "Ваш день станет...", <br>
 &nbsp;&nbsp;&nbsp;"Телец": "Вам предстоит начать...", <br>

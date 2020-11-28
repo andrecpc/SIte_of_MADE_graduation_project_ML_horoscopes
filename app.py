@@ -18,7 +18,7 @@ from datetime import datetime, date, timedelta
 from flask import Flask, request, render_template, request
 application = Flask(__name__)
 
-model_url = "http://188.40.133.2:5000/custom_prediction"
+model_url = "http://188.40.133.2:12121/custom_prediction"
 
 SIGNS = ["овен",
   "телец",

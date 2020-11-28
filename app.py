@@ -321,6 +321,8 @@ def index(sign='main_horo', oracle='vanga', date='today'):
             label = 'произвольный день'
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
     else:
+        if sign != 'main_horo':
+          sign = RU_EN_SIGNS[sign.capitalize()].lower()
         logging.info("sign: %r", sign)
         user_sign = RU_EN_SIGNS[sign.capitalize()]
 
@@ -359,8 +361,8 @@ def index(sign='main_horo', oracle='vanga', date='today'):
         logging.info("day: %r", day)
         main_horo = get_prediction(day,sign,PREDICTIONS_DF)
         # sign = ''
-        if sign != 'main_horo':
-            sign = RU_EN_SIGNS[sign.capitalize()].lower()
+        # if sign != 'main_horo':
+        #     sign = RU_EN_SIGNS[sign.capitalize()].lower()
         label = 'произвольный день'
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
 

@@ -323,6 +323,8 @@ def index(sign='main_horo', oracle='vanga', date='today'):
     else:
         if sign != 'main_horo':
           sign = RU_EN_SIGNS[sign.capitalize()].lower()
+        else:
+          sign = 'рыбы'
         logging.info("sign: %r", sign)
         # user_sign = RU_EN_SIGNS[sign.capitalize()]
 
@@ -358,7 +360,7 @@ def index(sign='main_horo', oracle='vanga', date='today'):
         # main_horo = '.'.join(test_results[0].split('.')[0:-1]) + '.'
 
         day = request.form.get('date2').replace('.', '-')
-        
+
         logging.info("day: %r", date_of_horo)
         main_horo = get_prediction(date_of_horo,sign,PREDICTIONS_DF)
         # sign = ''

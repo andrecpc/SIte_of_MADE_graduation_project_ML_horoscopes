@@ -103,7 +103,7 @@ def get_prediction_from_model(target_date, target_sign):
   headers = {'Content-Type': 'application/json'}
   command_to_model = str(target_date) + ' ' + INV_SIGNS_DICT[target_sign]
   logging.info("command_to_model: %r", command_to_model)
-  data = {"request":{"command": "command_to_model"}, "version":23, "session":{"user_id":123}}
+  data = {"request":{"command": command_to_model}, "version":23, "session":{"user_id":123}}
   resp = req.post(model_url, data=json.dumps(data), headers=headers)
   return(json.loads(resp.text)['response']['text'])
 

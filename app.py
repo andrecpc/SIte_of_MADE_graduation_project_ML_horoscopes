@@ -324,7 +324,7 @@ def index(sign='main_horo', oracle='vanga', date='today'):
         if sign != 'main_horo':
           sign = RU_EN_SIGNS[sign.capitalize()].lower()
         logging.info("sign: %r", sign)
-        user_sign = RU_EN_SIGNS[sign.capitalize()]
+        # user_sign = RU_EN_SIGNS[sign.capitalize()]
 
         date_of_horo = request.form.get('date2')
         date_of_horo = date_of_horo.replace('.', '-')

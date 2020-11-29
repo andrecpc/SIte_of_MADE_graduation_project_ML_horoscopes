@@ -87,7 +87,7 @@ PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
       'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
       'Uranus': 799, 'Neptune': 899, 'Pluto': 999}
 
-PREDICTIONS_DF = pd.read_csv("files/horoscopes.csv", sep=";", index_col="date")
+PREDICTIONS_DF = pd.read_csv("files/horoscopes3.csv", sep=";", index_col="date")
 USER_DICT = {}
 
 app = Flask(__name__)

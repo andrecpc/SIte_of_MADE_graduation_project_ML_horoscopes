@@ -5,7 +5,6 @@ import logging
 import requests as req
 import numpy as np
 import pandas as pd
-from zodiac_sign import get_zodiac_sign
 from astropy.time import Time
 from astroquery.jplhorizons import Horizons
 # import locale

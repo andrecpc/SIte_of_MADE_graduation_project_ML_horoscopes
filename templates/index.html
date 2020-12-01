@@ -12,6 +12,9 @@
    <div id="header">
      <div class="experts">
        <ul>
+
+{% if oracle=='vanga' %}
+
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #000;
            border-bottom: 3px solid #ff22b0;" href="/index" aria-current="page">
@@ -23,11 +26,31 @@
              <span style="font-weight:600;font-size:15px;">Михалыч</span>
            </a>
          </li>
-         <li style="display: inline-block;margin: 5px 25px 0 0;">
+         <!-- <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #777;" href="/index/borys/today">
              <span style="font-weight:600;font-size:15px;">Борис</span>
            </a>
-         </li>
+         </li> -->
+
+ {% elif oracle=='miha' %}
+
+ <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #777" href="/index" aria-current="page">
+     <span style="font-weight:600;font-size:15px;">Ванга</span>
+   </a>
+ </li>
+ <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #000;
+   border-bottom: 3px solid #ff22b0;" href="/index/miha/today">
+     <span style="font-weight:600;font-size:15px;">Михалыч</span>
+   </a>
+ </li>
+ <!-- <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #777;" href="/index/borys/today">
+     <span style="font-weight:600;font-size:15px;">Борис</span>
+   </a>
+ </li> -->
+ {% endif %}
        </ul>
      </div>
    </div>
@@ -790,7 +813,7 @@
                                                             letter-spacing:normal;
                                                             -webkit-font-smoothing:antialiased;
                                                             margin-top:0px;
-                                                            margin:0px" class="css-20fxiad2">Прогноз от Ванги на {{ label }} {{ day }}</div>
+                                                            margin:0px" class="css-20fxiad2">{% if oracle=='vanga' %}Прогноз от Ванги на {{ label }} {{ day }}{% elif oracle=='miha' %}Прогноз от Михалыча на {{ label }} {{ day }}{% endif %}</div>
                                                   <div style="font-weight:400;
                                                             font-size:18px;
                                                             line-height:1.4;
@@ -860,7 +883,7 @@
                                                             letter-spacing:normal;
                                                             -webkit-font-smoothing:antialiased;
                                                             margin-top:0px;
-                                                            margin:0px" class="css-20fxiad2">Прогноз от Ванги на выбранную дату, {{ day }}</div>
+                                                            margin:0px" class="css-20fxiad2">{% if oracle=='vanga' %}Прогноз от Ванги на выбранную дату, {{ day }}{% elif oracle=='miha' %}Прогноз от Михалыча на выбранную дату, {{ day }}{% endif %}</div>
                                                   <div style="font-weight:400;
                                                             font-size:18px;
                                                             line-height:1.4;

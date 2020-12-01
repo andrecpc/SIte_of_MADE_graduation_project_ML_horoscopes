@@ -2,64 +2,23 @@
 
 
 from __future__ import unicode_literals
+import json
+import requests as req
+import json
 import logging
+import numpy as np
 import pandas as pd
 from zodiac_sign import get_zodiac_sign
 from astropy.time import Time
 from astroquery.jplhorizons import Horizons
 # import locale
-import json
-import logging
+
 from datetime import datetime, date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request, render_template, request
 application = Flask(__name__)
 
-import numpy as np
-
-from generate_transformers_4 import HoroModel
-
-# Веса моделей
-# simple https://drive.google.com/drive/folders/1qkL5tjQWMcJ2vEfMCMxOcvlui9MceXFP
-# medium https://drive.google.com/drive/folders/1HpCJ6E1uZvTTgjJAhOUuY2XLhO8ZXu6z
-# large https://drive.google.com/drive/folders/1k1wh6HIYU_NBK19itdCbi4sae6e7_ngP
-
-test_model = HoroModel(gen_path='gen_500000',
-                       gpt_path = 'sberbank-ai/rugpt3small_based_on_gpt2', # 'sberbank-ai/rugpt3small_based_on_gpt2', 'sberbank-ai/rugpt3large_based_on_gpt2', 'model/simple'
-                       scaler_path = 'datatransformer.pickle',
-                       kv_path = "model_rusvectores.model")
-
-test = np.array([[-9.04546430e-01, -4.17748878e-01,  2.38048487e-05,
-         7.49852345e-03, -1.55603482e-02,  1.87672386e-07,
-         5.75445232e-03,  9.96352533e-01, -2.83478578e-04,
-        -5.45199613e-01, -4.62993467e-01, -3.66367909e-02,
-         5.57102562e-03,  1.36120381e-02,  2.56083748e-03,
-         4.13644793e-03,  7.16203758e-01, -1.31714285e-02,
-        -1.15773141e+00,  2.54496757e-01,  2.38593471e-02,
-        -1.14981276e-02, -2.28031021e-02,  9.97018852e-04,
-         6.84753376e-03,  1.18561372e+00,  6.35301037e-03,
-         4.00402366e-01,  1.42047587e-01, -2.02573152e-02,
-         2.51712582e-03, -1.50526949e-03,  4.16931550e-04,
-         2.45653055e-03,  4.25335080e-01,  1.84700806e-03,
-         1.67110522e+00, -4.84447457e+00, -3.92164066e-02,
-         1.39378035e-02, -1.14042461e-02, -1.61073246e-04,
-         2.95980886e-02,  5.12475018e+00,  1.53266853e-02,
-         4.25454661e+00, -8.98213988e+00, -5.64098150e-02,
-         1.19736740e-02, -1.26916878e-02, -2.27757868e-04,
-         5.74027212e-02,  9.93897307e+00,  1.65966762e-02,
-         1.46314909e+01,  1.18269218e+01, -1.55756943e-01,
-         5.04074977e-03, -1.26505387e-02,  4.26581528e-05,
-         1.08662792e-01,  1.88143792e+01, -4.03254824e-03,
-         2.85149653e+01, -5.88302774e+00, -5.65511943e-01,
-         8.05801347e-03, -1.24497378e-02, -7.64796960e-05,
-         1.68188911e-01,  2.91210073e+01,  1.04068989e-02,
-         1.29351421e+01, -3.16221459e+01, -6.63183494e-01,
-         1.04485438e-02, -1.49625070e-02, -9.27382882e-04,
-         1.97360357e-01,  3.41718865e+01,  1.78191802e-02,
-         1.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-         0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-         0.00000000e+00,  0.00000000e+00,  0.00000000e+00,
-         0.00000000e+00,  0.00000000e+00,  0.00000000e+00]])
+model_url = "http://188.40.133.2:12121/custom_prediction"
 
 SIGNS = ["овен",
   "телец",
@@ -74,7 +33,6 @@ SIGNS = ["овен",
   "водолей",
   "рыбы",
 ]
-
 
 SIGNS_DICT = {
   '0':"main_horo",
@@ -92,28 +50,45 @@ SIGNS_DICT = {
   '12':"рыбы",
 }
 
+INV_SIGNS_DICT = {
+  "main_horo":'0',
+  "овен":'1',
+  "телец":'2',
+  "близнецы":'3',
+  "рак":'4',
+  "лев":'5',
+  "дева":'6',
+  "весы":'7',
+  "скорпион":'8',
+  "козерог":'9',
+  "стрелец":'10',
+  "водолей":'11',
+  "рыбы":'12',
+}
+
 RU_EN_SIGNS = {
   "Aries": 'Овен',
-    "Taurus": 'Телец',
-    "Gemini": 'Близнецы',
-    "Cancer": 'Рак',
-    "Leo": 'Лев',
-    "Virgo": 'Дева',
-    "Libra": 'Весы',
-    "Scorpio": 'Скорпион',
-    "Sagittarius": 'Стрелец',
-    "Capricorn": 'Козерог',
-    "Aquarius": 'Водолей',
-    "Pisces": 'Рыбы',
+  "Taurus": 'Телец',
+  "Gemini": 'Близнецы',
+  "Cancer": 'Рак',
+  "Leo": 'Лев',
+  "Virgo": 'Дева',
+  "Libra": 'Весы',
+  "Scorpio": 'Скорпион',
+  "Sagittarius": 'Стрелец',
+  "Capricorn": 'Козерог',
+  "Aquarius": 'Водолей',
+  "Pisces": 'Рыбы',
 
-    "Lion": 'Лев',
+  "Lion": 'Лев',
 }
 
 PLANETS = {'Sun': 10,  'Mercury': 199, 'Venus': 299,
       'Mars': 499, 'Jupiter': 599, 'Saturn': 699,
       'Uranus': 799, 'Neptune': 899, 'Pluto': 999}
 
-PREDICTIONS_DF = pd.read_csv("files/horoscopes.csv", sep=";", index_col="date")
+PREDICTIONS_DF = pd.read_csv("files/horoscopes3.csv", sep=";", index_col="date")
+PREDICTIONS_DF_MIHA = pd.read_csv("files/horoscopes_miha.csv", sep=";", index_col="date")
 USER_DICT = {}
 
 app = Flask(__name__)
@@ -123,204 +98,217 @@ logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
 
-# Заглушки для предсказательных функций
-def get_prediction_from_model(target_date, target_sign): #Not implemented
-  return("""Это благоприятный день для общения с теми, кто дорог вам и близок по духу.
-        Отношения, которые в последнее время складывались напряженно,
-        сейчас меняются к лучшему, потому что многие готовы к компромиссам,
-        стараются сглаживать острые углы и хотят достичь взаимопонимания,
-        а не только доказать свою правоту.Хочется отложить дела на потом,
-        отдохнуть. Но важно не забывать об обещаниях, данных раньше.
-        Постарайтесь сделать все, что запланировали.
-        Скорее всего, у вас останется достаточно времени и для того,
-        чтобы немного развлечься, восстановить силы.""")
+# Предсказательные функции
+def get_prediction_from_model(target_date, target_sign, version):
 
-def get_prediction(target_date, target_sign, PREDICTIONS_DF):
-  if target_date in PREDICTIONS_DF.index:
-    return(PREDICTIONS_DF.loc[target_date,target_sign])
-  else:
-    return(get_prediction_from_model(target_date, target_sign))
+  headers = {'Content-Type': 'application/json'}
+  command_to_model = str(target_date) + ' ' + INV_SIGNS_DICT[target_sign]
+  logging.info("command_to_model: %r", command_to_model)
+  data = {"request":{"command": command_to_model}, "version":version, "session":{"user_id":123}}
+  resp = req.post(model_url, data=json.dumps(data), headers=headers)
+  return(json.loads(resp.text)['response']['text'])
+
+def get_prediction(target_date, target_sign, PREDICTIONS_DF=PREDICTIONS_DF, version=23):
+    if version == 23:
+        if target_date in PREDICTIONS_DF.index:
+            return(PREDICTIONS_DF.loc[target_date,target_sign])
+        else:
+            return(get_prediction_from_model(target_date, target_sign, version))
+    elif version ==33:
+        if target_date in PREDICTIONS_DF_MIHA.index:
+            logging.info("reading miha's file")
+            return(PREDICTIONS_DF_MIHA.loc[target_date,target_sign])
+        else:
+            return(get_prediction_from_model(target_date, target_sign, version))
 
 #
 # Первая версия сайта
 #
 
-# Рендер главной страницы
-@app.route("/")
-def hello():
-  '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
-  Просто рендерим шаблон главной страницы.'''
+# # Рендер главной страницы
+# @app.route("/")
+# def hello():
+#   '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+#   Просто рендерим шаблон главной страницы.'''
+#
+#   return render_template('main.html')
 
-  return render_template('main.html')
-
-# Рендер страницы справки api
-@app.route("/api")
-def api():
-  '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
-  Просто рендерим шаблон страницы.'''
-
-  return render_template('api.html')
-
-# Обработчик запросов к api
-@app.route("/api-request", methods=['POST'])
-def api_request():
-    '''На странице /api есть документация. Здесь надо сделать тот же
-    функционал, что и для страницы vanga_custom, только на выходе
-    не будем рендерить страницу, а просто возвращать ответ с запрашиваемой
-    информацией.'''
-
-    logging.info("Request: %r", request.json)
-    answer = {}
-
-    if request.json['choice'] in ['today', 'tomorrow', 'yesterday']:
-
-        date = request.json['choice']
-
-        if date == 'today':
-            dd = datetime.now()
-        if date == 'tomorrow':
-            dd = datetime.now() + timedelta(days=1)
-        if date == 'yesterday':
-            dd = datetime.now() - timedelta(days=1)
-
-        day = '-'.join(map(str, [dd.year, dd.month, dd.day]))
-        df = pd.read_csv("files/horoscopes.csv", sep=";")
-        horos = list(df.loc[df['date']==day][SIGNS].values[0])
-
-        # Выдергиваем из csv 12 прогнозов на сегодня и записываем в словарь,
-        # где ключи знаки, а прогнозы значения. Всё как в vanga_today.
-
-        # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
-        # horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
-        sig = [el.capitalize() for el in SIGNS]
-        horos_dict = dict(zip(sig, horos))
-        answer["date"] = day
-        answer["horoscopes"] = horos_dict
-
-    elif request.json['choice'] == 'custom':
-        # Делаем предсказание по дате и определяем знак как в vanga_custom
-
-        # Тут определяем знак зодиака
-        # d,m,y = request.json['period'][0].split('.')
-        # user_sign = get_zodiac_sign(d, m)
-        # user_sign = RU_EN_SIGNS[user_sign]
-        user_sign = RU_EN_SIGNS[request.json['period'][0].capitalize()]
-
-        # Тут готовим фрейм с координатами планет по дате
-        date_of_horo = request.json['period'][1].replace('.', '-')
-        date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
-        date_for_epoch = Time(date_of_horo).jd
-        # Фрейм с координатами планет под выбранную дату (shape (1, 81))
-        df_planets = pd.read_csv("files/planets_template.csv", sep=";")
-        for k, v in PLANETS.items():
-            kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
-            df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
-
-        # Тут готовим ohe фрейм для знака
-        cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
-        # Фрейм с ohe знака
-        df_ohe = pd.DataFrame(columns=cls_cols)
-        df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
-        df_ohe[user_sign + '_cls'] = 1
-
-        # Тут конкатим итоговый фрейм фич.
-        features_df = pd.concat([df_planets,df_ohe],axis=1)
-
-        # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-        predicted_horo = features_df.values[0][1:]
-        test_results = test_model.get_prediction(np.array([predicted_horo]))
-        answer["detected_sign"] = user_sign
-        answer["horoscope"] = str('.'.join(test_results[0].split('.')[0:-1]) + '.')
-
-    logging.info("response %r", answer)
-
-    return json.dumps (answer, ensure_ascii=False, indent=2)
-
-# Рендер прогнозов Ванги из файла на сегодня
-@app.route("/vanga_today")
-def vanga_today():
-  '''На выходе нужен словарь horos_dict с ключами знаками и значениями —
-  предсказанными гороскопами на сегодня. Логика забора данных из
-  датафрейма будет зависить от самого файла. Либо в нем будет всего 12
-  гороскопов на сегодня, и тогда можно брать сразу всё, либо в нем будет
-  разметка по датам, и тогда надо фильтровать по дате. Сегодняшнюю дату
-  можно брать из встроенного питовского time.'''
-
-  # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
-  horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
-  sig = [el.capitalize() for el in SIGNS]
-  horos_dict = dict(zip(sig, horos))
-  return render_template('vanga_today.html', horos_dict=horos_dict)
-
-# Рендер прогнозов Ванги на произвольную дату
-@app.route("/vanga_custom", methods=['post', 'get'])
-def vanga_custom():
-  '''Принимает из запроса 2 даты: день рождения и нужный день прогноза.
-  Если значения пришли некорректные, то рендерим страницу с посылом о
-  выборе дат.
-  Если значения пришли нормальные, то определяем знак зодиака по первой дате
-  и готовим фичи для GANа по второй дате.
-  На выходе отдаем рендер страницы, переменную со знаком и предсказание.
-  Пока на предсказание стоит заглушка из фичей в виде координат планет+ohe.'''
-
-  # Тут проверку входных дат делаем
-  date_of_BD = ""
-  date_of_horo = ""
-  if request.method == 'POST':
-    date_of_BD = request.form.get('date1')
-    date_of_horo = request.form.get('date2')
-  if date_of_BD == "дд-мм-гггг":
-    return render_template('vanga_custom.html', dates = False)
-  if date_of_BD == "":
-    return render_template('vanga_custom.html', dates = False)
-
-  # Тут определяем знак зодиака
-  # locale.setlocale(locale.LC_ALL, 'ru_RU')
-  d,m,y = date_of_BD.split('.')
-  user_sign = get_zodiac_sign(d, m)
-  user_sign = RU_EN_SIGNS[user_sign]
-  date_of_BD = ""
-
-  # Тут готовим фрейм с координатами планет по дате
-  date_of_horo = date_of_horo.replace('.', '-')
-  date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
-  date_for_epoch = Time(date_of_horo).jd
-  # Фрейм с координатами планет под выбранную дату (shape (1, 81))
-  df_planets = pd.read_csv("files/planets_template.csv", sep=";")
-  for k, v in PLANETS.items():
-    kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
-    df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
-
-  # Тут готовим ohe фрейм для знака
-  cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
-  # Фрейм с ohe знака
-  df_ohe = pd.DataFrame(columns=cls_cols)
-  df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
-  df_ohe[user_sign + '_cls'] = 1
-
-  # Тут конкатим итоговый фрейм фич.
-  features_df = pd.concat([df_planets,df_ohe],axis=1)
-
-  # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-  predicted_horo = features_df.values[0][1:]
-
-  # Тут начинается работа моделей
-  test_results = test_model.get_prediction(np.array([predicted_horo]))
-  # test_results = test_model.get_prediction(test)
-
-  return render_template('vanga_custom.html', dates = [user_sign, test_results[0]])
+# # Рендер страницы справки api
+# @app.route("/api")
+# def api():
+#   '''Тут всё шикарно. Никакой логики, переменных или чего-то еще.
+#   Просто рендерим шаблон страницы.'''
+#
+#   return render_template('api.html')
+#
+# # Обработчик запросов к api
+# @app.route("/api-request", methods=['POST'])
+# def api_request():
+#     '''На странице /api есть документация. Здесь надо сделать тот же
+#     функционал, что и для страницы vanga_custom, только на выходе
+#     не будем рендерить страницу, а просто возвращать ответ с запрашиваемой
+#     информацией.'''
+#
+#     logging.info("Request: %r", request.json)
+#     answer = {}
+#
+#     if request.json['choice'] in ['today', 'tomorrow', 'yesterday']:
+#
+#         date = request.json['choice']
+#
+#         if date == 'today':
+#             dd = datetime.now()
+#         if date == 'tomorrow':
+#             dd = datetime.now() + timedelta(days=1)
+#         if date == 'yesterday':
+#             dd = datetime.now() - timedelta(days=1)
+#
+#         day = '-'.join(map(str, [dd.year, dd.month, dd.day]))
+#         df = pd.read_csv("files/horoscopes.csv", sep=";")
+#         horos = list(df.loc[df['date']==day][SIGNS].values[0])
+#
+#         # Выдергиваем из csv 12 прогнозов на сегодня и записываем в словарь,
+#         # где ключи знаки, а прогнозы значения. Всё как в vanga_today.
+#
+#         # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
+#         # horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
+#         sig = [el.capitalize() for el in SIGNS]
+#         horos_dict = dict(zip(sig, horos))
+#         answer["date"] = day
+#         answer["horoscopes"] = horos_dict
+#
+#     elif request.json['choice'] == 'custom':
+#         # Делаем предсказание по дате и определяем знак как в vanga_custom
+#
+#         # Тут определяем знак зодиака
+#         # d,m,y = request.json['period'][0].split('.')
+#         # user_sign = get_zodiac_sign(d, m)
+#         # user_sign = RU_EN_SIGNS[user_sign]
+#         user_sign = RU_EN_SIGNS[request.json['period'][0].capitalize()]
+#
+#         # Тут готовим фрейм с координатами планет по дате
+#         date_of_horo = request.json['period'][1].replace('.', '-')
+#         date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+#         date_for_epoch = Time(date_of_horo).jd
+#         # Фрейм с координатами планет под выбранную дату (shape (1, 81))
+#         df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+#         for k, v in PLANETS.items():
+#             kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+#             df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
+#
+#         # Тут готовим ohe фрейм для знака
+#         cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+#         # Фрейм с ohe знака
+#         df_ohe = pd.DataFrame(columns=cls_cols)
+#         df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+#         df_ohe[user_sign + '_cls'] = 1
+#
+#         # Тут конкатим итоговый фрейм фич.
+#         features_df = pd.concat([df_planets,df_ohe],axis=1)
+#
+#         # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+#         predicted_horo = features_df.values[0][1:]
+#         test_results = test_model.get_prediction(np.array([predicted_horo]))
+#         answer["detected_sign"] = user_sign
+#         answer["horoscope"] = str('.'.join(test_results[0].split('.')[0:-1]) + '.')
+#
+#     logging.info("response %r", answer)
+#
+#     return json.dumps (answer, ensure_ascii=False, indent=2)
+#
+# # Рендер прогнозов Ванги из файла на сегодня
+# @app.route("/vanga_today")
+# def vanga_today():
+#   '''На выходе нужен словарь horos_dict с ключами знаками и значениями —
+#   предсказанными гороскопами на сегодня. Логика забора данных из
+#   датафрейма будет зависить от самого файла. Либо в нем будет всего 12
+#   гороскопов на сегодня, и тогда можно брать сразу всё, либо в нем будет
+#   разметка по датам, и тогда надо фильтровать по дате. Сегодняшнюю дату
+#   можно брать из встроенного питовского time.'''
+#
+#   # Пока тут заглушка, и просто берется первая строка файла с 12 прогнозами
+#   horos = list(PREDICTIONS_DF[SIGNS][0:1].values[0])
+#   sig = [el.capitalize() for el in SIGNS]
+#   horos_dict = dict(zip(sig, horos))
+#   return render_template('vanga_today.html', horos_dict=horos_dict)
+#
+# # Рендер прогнозов Ванги на произвольную дату
+# @app.route("/vanga_custom", methods=['post', 'get'])
+# def vanga_custom():
+#   '''Принимает из запроса 2 даты: день рождения и нужный день прогноза.
+#   Если значения пришли некорректные, то рендерим страницу с посылом о
+#   выборе дат.
+#   Если значения пришли нормальные, то определяем знак зодиака по первой дате
+#   и готовим фичи для GANа по второй дате.
+#   На выходе отдаем рендер страницы, переменную со знаком и предсказание.
+#   Пока на предсказание стоит заглушка из фичей в виде координат планет+ohe.'''
+#
+#   # Тут проверку входных дат делаем
+#   date_of_BD = ""
+#   date_of_horo = ""
+#   if request.method == 'POST':
+#     date_of_BD = request.form.get('date1')
+#     date_of_horo = request.form.get('date2')
+#   if date_of_BD == "дд-мм-гггг":
+#     return render_template('vanga_custom.html', dates = False)
+#   if date_of_BD == "":
+#     return render_template('vanga_custom.html', dates = False)
+#
+#   # Тут определяем знак зодиака
+#   # locale.setlocale(locale.LC_ALL, 'ru_RU')
+#   d,m,y = date_of_BD.split('.')
+#   user_sign = get_zodiac_sign(d, m)
+#   user_sign = RU_EN_SIGNS[user_sign]
+#   date_of_BD = ""
+#
+#   # Тут готовим фрейм с координатами планет по дате
+#   date_of_horo = date_of_horo.replace('.', '-')
+#   date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
+#   date_for_epoch = Time(date_of_horo).jd
+#   # Фрейм с координатами планет под выбранную дату (shape (1, 81))
+#   df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+#   for k, v in PLANETS.items():
+#     kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+#     df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
+#
+#   # Тут готовим ohe фрейм для знака
+#   cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+#   # Фрейм с ohe знака
+#   df_ohe = pd.DataFrame(columns=cls_cols)
+#   df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+#   df_ohe[user_sign + '_cls'] = 1
+#
+#   # Тут конкатим итоговый фрейм фич.
+#   features_df = pd.concat([df_planets,df_ohe],axis=1)
+#
+#   # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+#   predicted_horo = features_df.values[0][1:]
+#
+#   # Тут начинается работа моделей
+#   test_results = test_model.get_prediction(np.array([predicted_horo]))
+#   # test_results = test_model.get_prediction(test)
+#
+#   return render_template('vanga_custom.html', dates = [user_sign, test_results[0]])
 
 #
 # Вторая версия сайта
 # Все страницы в подпапке index
 #
 
+@app.route('/')
 # Главная страница с общим прогнозом на сегодня и со всеми остальными вариантами прогнозов
 @app.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
 @app.route('/index')
 @app.route('/index/<oracle>/<date>')
-def index(sign='main_horo', oracle='vanga', date='today'):
+def index(sign='main_horo', oracle='vanga', date='today', version=23):
+    logging.info("sign: %r", sign)
+    logging.info("oracle: %r", oracle)
     sign_2 = sign.capitalize().lower()
+
+    if oracle=='miha':
+        version=33
+        logging.info("version changed: %r", version)
+
     if request.method != 'POST':
         # 2020-11-22
         if sign != 'main_horo':
@@ -336,10 +324,12 @@ def index(sign='main_horo', oracle='vanga', date='today'):
             dd = datetime.now() - timedelta(days=1)
             label = 'вчера'
 
-        day = '-'.join(map(str, [dd.year, dd.month, dd.day]))
-        df = pd.read_csv("files/horoscopes.csv", sep=";")
-        main_horo = df.loc[df['date']==day][sign].values[0]
-
+        # day = '-'.join(map(str, [dd.year, dd.month, dd.day]))
+        day = dd.strftime('%Y-%m-%d')
+        # df = pd.read_csv("files/horoscopes.csv", sep=";")
+        # main_horo = df.loc[df['date']==day][sign].values[0]
+        logging.info("day: %r", day)
+        main_horo = get_prediction(day,sign,PREDICTIONS_DF,version)
         if date == 'custom':
             main_horo = 'Выберите дату, а потом нажмите на нужный знак зодиака'
             day = ''
@@ -347,41 +337,51 @@ def index(sign='main_horo', oracle='vanga', date='today'):
             label = 'произвольный день'
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
     else:
-        user_sign = RU_EN_SIGNS[sign.capitalize()]
+        if sign != 'main_horo':
+          sign = RU_EN_SIGNS[sign.capitalize()].lower()
+        else:
+          sign = 'рыбы'
+        logging.info("sign: %r", sign)
+        # user_sign = RU_EN_SIGNS[sign.capitalize()]
+
         date_of_horo = request.form.get('date2')
         date_of_horo = date_of_horo.replace('.', '-')
         date_of_horo = '-'.join(date_of_horo.split('-')[::-1])
 
-        date_for_epoch = Time(date_of_horo).jd
+        # date_for_epoch = Time(date_of_horo).jd
         # Фрейм с координатами планет под выбранную дату (shape (1, 81))
-        df_planets = pd.read_csv("files/planets_template.csv", sep=";")
-        for k, v in PLANETS.items():
-          kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
-          df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
+        # df_planets = pd.read_csv("files/planets_template.csv", sep=";")
+        # for k, v in PLANETS.items():
+        #   kk = [k+'_x',k+'_y',k+'_z',k+'_vx',k+'_vy',k+'_vz',k+'_l',k+'_ry',k+'_rr']
+        #   df_planets.loc[0, kk] = Horizons(id=v, location=500, epochs=date_for_epoch, id_type='id').vectors().to_pandas()[['x','y','z','vx','vy','vz','lighttime','range','range_rate']].values[0]
 
-        # Тут готовим ohe фрейм для знака
-        cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
-        # Фрейм с ohe знака
-        df_ohe = pd.DataFrame(columns=cls_cols)
-        df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
-        df_ohe[user_sign + '_cls'] = 1
+        # # Тут готовим ohe фрейм для знака
+        # cls_cols = [el.capitalize() + '_cls' for el in SIGNS]
+        # # Фрейм с ohe знака
+        # df_ohe = pd.DataFrame(columns=cls_cols)
+        # df_ohe.loc[0] = [0,0,0,0,0,0,0,0,0,0,0,0]
+        # df_ohe[user_sign + '_cls'] = 1
 
-        # Тут конкатим итоговый фрейм фич.
-        features_df = pd.concat([df_planets,df_ohe],axis=1)
+        # # Тут конкатим итоговый фрейм фич.
+        # features_df = pd.concat([df_planets,df_ohe],axis=1)
 
-        # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
-        predicted_horo = features_df.values[0][1:]
+        # # В эту переменную потом надо положить финальный прогноз, пока тут заглушка из фич
+        # predicted_horo = features_df.values[0][1:]
 
-        # Тут начинается работа моделей
-        test_results = test_model.get_prediction(np.array([predicted_horo]))
+        # # Тут начинается работа моделей
+        # test_results = test_model.get_prediction(np.array([predicted_horo]))
         # test_results = test_model.get_prediction(test)
 
         # main_horo = 'Заглушка прогноза для даты '+ str(date_of_horo) + ' для знака ' + str(RU_EN_SIGNS[sign.capitalize()].lower())
-        main_horo = '.'.join(test_results[0].split('.')[0:-1]) + '.'
+        # main_horo = '.'.join(test_results[0].split('.')[0:-1]) + '.'
+
         day = request.form.get('date2').replace('.', '-')
+
+        logging.info("day: %r", date_of_horo)
+        main_horo = get_prediction(date_of_horo,sign,PREDICTIONS_DF,version)
         # sign = ''
-        if sign != 'main_horo':
-            sign = RU_EN_SIGNS[sign.capitalize()].lower()
+        # if sign != 'main_horo':
+        #     sign = RU_EN_SIGNS[sign.capitalize()].lower()
         label = 'произвольный день'
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
 

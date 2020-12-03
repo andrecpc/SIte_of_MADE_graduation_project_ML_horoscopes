@@ -1,3 +1,7 @@
 set FLASK_APP=app.py
 set FLASK_ENV=development
 python -m flask run
+
+Для сервера
+flask run -h 0.0.0.0 -p 12312
+python -m flask run -h 0.0.0.0 -p 12121

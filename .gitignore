@@ -1,4 +1,4 @@
-#env/
+env/
 *.pyc
-*.pyc
-*.pyc
+*.DS_Store
+*__pycache__

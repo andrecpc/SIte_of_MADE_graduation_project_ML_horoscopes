@@ -201,7 +201,7 @@ def web():
   card = {}
   buttons = []
   date, sign_idx = request.json['request']['command'].split()
-  text = get_prediction(date, SIGNS_DICT[sign_idx], PREDICTIONS_DF)
+  text = get_prediction(date, SIGNS_DICT[sign_idx], PREDICTIONS_DF, request.json['request']['oracle'])
   response = {
     "version":request.json['version'],
     'session':request.json['session'],

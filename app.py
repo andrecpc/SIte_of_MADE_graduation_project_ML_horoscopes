@@ -98,27 +98,27 @@ logging.basicConfig(level=logging.DEBUG)
 sessionStorage = {}
 
 # Предсказательные функции
-def get_prediction_from_model(target_date, target_sign, version):
+def get_prediction_from_model(target_date, target_sign, oracle="vanga"):
 
   headers = {'Content-Type': 'application/json'}
   command_to_model = str(target_date) + ' ' + INV_SIGNS_DICT[target_sign]
   logging.info("command_to_model: %r", command_to_model)
-  data = {"request":{"command": command_to_model}, "version":version, "session":{"user_id":123}}
+  data = {"request":{"command": command_to_model, "oracle":oracle}, "version":23, "session":{"user_id":123}}
   resp = req.post(model_url, data=json.dumps(data), headers=headers)
   return(json.loads(resp.text)['response']['text'])
 
-def get_prediction(target_date, target_sign, PREDICTIONS_DF=PREDICTIONS_DF, version=23):
-    if version == 23:
+def get_prediction(target_date, target_sign, PREDICTIONS_DF=PREDICTIONS_DF, oracle="vanga"):
+    if oracle == "vanga":
         if target_date in PREDICTIONS_DF.index:
             return(PREDICTIONS_DF.loc[target_date,target_sign])
         else:
-            return(get_prediction_from_model(target_date, target_sign, version))
-    elif version ==33:
+            return(get_prediction_from_model(target_date, target_sign, oracle))
+    elif oracle == "miha":
         if target_date in PREDICTIONS_DF_MIHA.index:
             logging.info("reading miha's file")
             return(PREDICTIONS_DF_MIHA.loc[target_date,target_sign])
         else:
-            return(get_prediction_from_model(target_date, target_sign, version))
+            return(get_prediction_from_model(target_date, target_sign, oracle))
 
 #
 # Вторая версия сайта
@@ -159,7 +159,7 @@ def index(sign='main_horo', oracle='vanga', date='today', version=23):
         # df = pd.read_csv("files/horoscopes.csv", sep=";")
         # main_horo = df.loc[df['date']==day][sign].values[0]
         logging.info("day: %r", day)
-        main_horo = get_prediction(day,sign,PREDICTIONS_DF,version)
+        main_horo = get_prediction(day,sign,PREDICTIONS_DF,oracle)
         if date == 'custom':
             main_horo = 'Выберите дату, а потом нажмите на нужный знак зодиака'
             day = ''
@@ -181,7 +181,7 @@ def index(sign='main_horo', oracle='vanga', date='today', version=23):
         day = request.form.get('date2').replace('.', '-')
 
         logging.info("day: %r", date_of_horo)
-        main_horo = get_prediction(date_of_horo,sign,PREDICTIONS_DF,version)
+        main_horo = get_prediction(date_of_horo,sign,PREDICTIONS_DF,oracle)
         label = 'произвольный день'
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
 

@@ -1,0 +1,963 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+
+{% block content %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//github.com/elderfadeev/js-datepicker/blob/master/cssworld.ru-xcal-en.js"></script>
+<section class="col-md-12 content" id="home">
+   <div id="header">
+     <div class="experts">
+       <ul>
+
+{% if oracle=='vanga' %}
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index" aria-current="page">
+             <span style="font-weight:600;font-size:15px;">Ванга</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777" href="/index/miha/today">
+             <span style="font-weight:600;font-size:15px;">Михалыч</span>
+           </a>
+         </li>
+         <!-- <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/borys/today">
+             <span style="font-weight:600;font-size:15px;">Борис</span>
+           </a>
+         </li> -->
+
+ {% elif oracle=='miha' %}
+
+ <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #777" href="/index" aria-current="page">
+     <span style="font-weight:600;font-size:15px;">Ванга</span>
+   </a>
+ </li>
+ <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #000;
+   border-bottom: 3px solid #ff22b0;" href="/index/miha/today">
+     <span style="font-weight:600;font-size:15px;">Михалыч</span>
+   </a>
+ </li>
+ <!-- <li style="display: inline-block;margin: 5px 25px 0 0;">
+   <a style="color: #777;" href="/index/borys/today">
+     <span style="font-weight:600;font-size:15px;">Борис</span>
+   </a>
+ </li> -->
+ {% endif %}
+       </ul>
+     </div>
+   </div>
+
+</section>
+
+
+<section class="sBlock" id="sgoro">
+  <div id="content">
+
+     <div class="subNav periodMenu">
+       <ul>
+         {% if label=='сегодня' %}
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На вчера</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На сегодня</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На завтра</span>
+           </a>
+         </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+         {% elif label=='вчера' %}
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На вчера</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На сегодня</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На завтра</span>
+           </a>
+         </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+
+         {% elif label=='произвольный день' %}
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На вчера</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На сегодня</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На завтра</span>
+           </a>
+         </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+
+
+         {% else %}
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/yesterday/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На вчера</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/today/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На сегодня</span>
+           </a>
+         </li>
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #000;
+           border-bottom: 3px solid #ff22b0;" href="/index/{{ oracle }}/tomorrow/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На завтра</span>
+           </a>
+         </li>
+
+         <li style="display: inline-block;margin: 5px 25px 0 0;">
+           <a style="color: #777;" href="/index/{{ oracle }}/custom/{{ sign_2 }}">
+             <span style="font-weight:600;font-size:15px;">На дату</span>
+           </a>
+         </li>
+         {% endif %}
+
+       </ul>
+     </div>
+  </div>
+
+
+  <div class="css-x9hyh8">
+    <div class="css-1246c2u">
+      <div class="css-wdkc2c">
+        <div class="css-180cglb">
+          <div style="display:grid;
+          grid-template-columns:repeat(auto-fill,minmax(120px,auto));
+          gap:12px 10px;
+          padding:0px 14px 14px;" class="css-sgwm28">
+            <a class="aries" data-tooltip="Овен" href="/index/{{ oracle }}/{{ date  }}/aries">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="aries-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/aries_c.png" border-radius="3" width="100" height="100" alt="Овен">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Овен</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">20 марта - 19 апреля</div>
+              </div>
+            </a>
+
+            <a class="taurus act" data-tooltip="Телец" href="/index/{{ oracle }}/{{ date  }}/taurus">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="taurus-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/taurus_c.png" border-radius="3" width="100" height="100" alt="Телец">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Телец</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">20 апреля - 20 мая</div>
+              </div>
+            </a>
+
+            <a class="gemini" data-tooltip="Близнецы" href="/index/{{ oracle }}/{{ date  }}/gemini">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="gemini-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/gemini_c.png" border-radius="3" width="100" height="100" alt="Близнецы">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Близнецы</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">21 мая - 20 июня</div>
+              </div>
+            </a>
+
+            <a class="cancer" data-tooltip="Рак" href="/index/{{ oracle }}/{{ date  }}/cancer">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="cancer-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/cancer_c.png" border-radius="3" width="100" height="100" alt="Рак">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Рак</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">21 июня - 21 июля</div>
+              </div>
+            </a>
+
+            <a class="lion" data-tooltip="Лев" href="/index/{{ oracle }}/{{ date  }}/lion">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="lion-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/lion_c.png" border-radius="3" width="100" height="100" alt="Лев">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Лев</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">22 июля - 22 августа</div>
+              </div>
+            </a>
+
+            <a class="virgo" data-tooltip="Дева" href="/index/{{ oracle }}/{{ date  }}/virgo">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="virgo-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/virgo_c.png" border-radius="3" width="100" height="100" alt="Дева">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Дева</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">23 августа - 22 сентября</div>
+              </div>
+            </a>
+
+            <a class="libra" data-tooltip="Весы" href="/index/{{ oracle }}/{{ date  }}/libra">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="libra-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/libra_c.png" border-radius="3" width="100" height="100" alt="Весы">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Весы</div>
+                <div style="font-weight:400;
+                font-size:9.5px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">23 сентября - 22 октября</div>
+              </div>
+            </a>
+
+            <a class="scorpio" data-tooltip="Скорпион" href="/index/{{ oracle }}/{{ date  }}/scorpio">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="scorpio-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/scorpio_c.png" border-radius="3" width="100" height="100" alt="Скорпион">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Скорпион</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">23 октября - 21 ноября</div>
+              </div>
+            </a>
+
+            <a class="sagittarius" data-tooltip="Стрелец" href="/index/{{ oracle }}/{{ date  }}/sagittarius">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="sagittarius-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/sagittarius_c.png" border-radius="3" width="100" height="100" alt="Стрелец">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Стрелец</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">22 ноября - 21 декабря</div>
+              </div>
+            </a>
+
+            <a class="capricorn" data-tooltip="Козерог" href="/index/{{ oracle }}/{{ date  }}/capricorn">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="capricorn-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/capricorn_c.png" border-radius="3" width="100" height="100" alt="Козерог">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Козерог</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">22 декабря - 20 января</div>
+              </div>
+            </a>
+
+            <a class="aquarius" data-tooltip="Водолей" href="/index/{{ oracle }}/{{ date  }}/aquarius">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="aquarius-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/aquarius_c.png" border-radius="3" width="100" height="100" alt="Водолей">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Водолей</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">21 января - 18 февраля</div>
+              </div>
+            </a>
+
+            <a class="pisces" data-tooltip="Рыбы" href="/index/{{ oracle }}/{{ date  }}/pisces">
+              <div style="position:relative;
+              display:flex;
+              cursor:pointer;
+              border-radius:6px;
+              height:150px;
+              width:120px;
+              background-color:rgb(250,250,250);
+              border-width:1px;
+              border-style:solid;
+              border-color:rgb(255,255,255);
+              -webkit-box-orient:vertical;
+              -webkit-box-direction:normal;
+              flex-direction:column;
+              -webkit-box-align:center;
+              align-items:center;
+              -webkit-box-pack:center;
+              justify-content:center;" class="pisces-css-1k019wu">
+                <div style="display:flex;
+                border-radius:4px;
+                height:100px;
+                width:100px;
+                background-color:rgb(255,255,255);
+                -webkit-box-align:center;
+                align-items:center;
+                -webkit-box-pack:center;
+                justify-content:center;" class="css-1d3g5yh">
+                  <img src="/static/images/pisces_c.png" border-radius="3" width="100" height="100" alt="Рыбы">
+                </div>
+                <div style="font-weight:600;
+                font-size:13px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                text-align:center;" class="css-12fxiad">Рыбы</div>
+                <div style="font-weight:400;
+                font-size:10px;
+                line-height:1.7;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:2px;
+                text-align:center;" class="css-10fxiad">19 февраля - 19 марта</div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;
+    border-left:0px solid #e1e1e1;
+    width:600px;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;" class="css-k1imtx">
+      <h1 style="font-weight:800;
+                font-size:40px;
+                line-height:1.7;
+                color: #000;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:3px;
+                margin:0px" class="css-20fxiad">{% if sign=='Main_horo' %}
+                                                  Все знаки
+                                                {% else %} {{ sign }}
+                                                {% endif %}</h1>
+      <div style="font-weight:350;
+                font-size:20px;
+                line-height:1.3;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:0px;
+                margin:0px" class="css-20fxiad">{% if sign=='Main_horo' %}
+                                                  01 января - 31 декабря
+                                                  {% elif sign=='Овен' %}
+                                                  20 марта - 19 апреля
+                                                  {% elif sign=='Телец' %}
+                                                  20 апреля - 20 мая
+                                                  {% elif sign=='Близнецы' %}
+                                                  21 мая - 20 июня
+                                                  {% elif sign=='Рак' %}
+                                                  21 июня - 21 июля
+                                                  {% elif sign=='Лев' %}
+                                                  22 июля - 22 августа
+                                                  {% elif sign=='Дева' %}
+                                                  23 августа - 22 сентября
+                                                  {% elif sign=='Весы' %}
+                                                  23 сентября - 22 октября
+                                                  {% elif sign=='Скорпион' %}
+                                                  23 октября - 21 ноября
+                                                  {% elif sign=='Стрелец' %}
+                                                  22 ноября - 21 декабря
+                                                  {% elif sign=='Козерог' %}
+                                                  22 декабря - 20 января
+                                                  {% elif sign=='Водолей' %}
+                                                  21 января - 18 февраля
+                                                  {% elif sign=='Рыбы' %}
+                                                  19 февраля - 19 марта
+                                                  {% endif %}</div>
+
+                                                  {% if label != 'произвольный день' %}
+                                                  <div style="font-weight:600;
+                                                            font-size:15px;
+                                                            line-height:1.9;
+                                                            color: #000;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            margin:0px" class="css-20fxiad2">{% if oracle=='vanga' %}Прогноз от Ванги на {{ label }} {{ day }}{% elif oracle=='miha' %}Прогноз от Михалыча на {{ label }} {{ day }}{% endif %}</div>
+                                                  <div style="font-weight:400;
+                                                            font-size:18px;
+                                                            line-height:1.4;
+                                                            color: #333;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            text-align:justify;
+                                                            margin:0px" class="css-20fxiad3">{{ main_horo }}</div>
+
+
+                                                  {% else %}
+                                                  {% if main_horo != 'Выберите дату, а потом нажмите на нужный знак зодиака' %}
+                                                  <div style="display:flex;
+                                                    border-left:0px solid #e1e1e1;
+                                                    width:500px;
+                                                    -webkit-box-orient:vertical;
+                                                    -webkit-box-direction:normal;
+                                                    -webkit-flex-direction:column;" class="css-k1imtx">
+                                                    <!-- <h1 style="font-weight:800;
+                                                      font-size:40px;
+                                                      line-height:1.7;
+                                                      color: #000;
+                                                      letter-spacing:normal;
+                                                      -webkit-font-smoothing:antialiased;
+                                                      margin-top:3px;
+                                                      margin:0px" class="css-20fxiad">{{ sign }}</h1> -->
+                                                    <!-- <div style="font-weight:350;
+                font-size:20px;
+                line-height:1.3;
+                color: #777;
+                letter-spacing:normal;
+                -webkit-font-smoothing:antialiased;
+                margin-top:0px;
+                margin:0px" class="css-20fxiad">{% if sign=='Main_horo' %}
+                                                      01 января - 31 декабря
+                                                     {% elif sign=='Овен' %}
+                                                      20 марта - 19 апреля
+                                                      {% elif sign=='Телец' %}
+                                                      20 апреля - 20 мая
+                                                      {% elif sign=='Близнецы' %}
+                                                      21 мая - 20 июня
+                                                      {% elif sign=='Рак' %}
+                                                      21 июня - 21 июля
+                                                      {% elif sign=='Лев' %}
+                                                      22 июля - 22 августа
+                                                      {% elif sign=='Дева' %}
+                                                      23 августа - 22 сентября
+                                                      {% elif sign=='Весы' %}
+                                                      23 сентября - 22 октября
+                                                      {% elif sign=='Скорпион' %}
+                                                      23 октября - 21 ноября
+                                                      {% elif sign=='Стрелец' %}
+                                                      22 ноября - 21 декабря
+                                                      {% elif sign=='Козерог' %}
+                                                      22 декабря - 20 января
+                                                      {% elif sign=='Водолей' %}
+                                                      21 января - 18 февраля
+                                                      {% elif sign=='Рыбы' %}
+                                                      19 февраля - 19 марта
+                                                      {% endif %}</div> -->
+
+                                                  <div style="font-weight:600;
+                                                            font-size:15px;
+                                                            line-height:1.9;
+                                                            color: #000;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            margin:0px" class="css-20fxiad2">{% if oracle=='vanga' %}Прогноз от Ванги на выбранную дату, {{ day }}{% elif oracle=='miha' %}Прогноз от Михалыча на выбранную дату, {{ day }}{% endif %}</div>
+                                                  <div style="font-weight:400;
+                                                            font-size:18px;
+                                                            line-height:1.4;
+                                                            color: #333;
+                                                            letter-spacing:normal;
+                                                            -webkit-font-smoothing:antialiased;
+                                                            margin-top:0px;
+                                                            text-align:justify;
+                                                            margin:0px" class="css-20fxiad3">{{ main_horo }}</div>
+
+                                                  <form method="get" action="/index/{{ oracle }}/custom/{{ sign_2 }}">
+
+                                                    <input type="submit" class="btn btn-big dark-blue-btn" style="background-image: url({{ url_for('static', filename='images/stars.jpg') }}" value="Попробовать еще раз">
+                                                  </form>
+                                                  </div>
+
+
+                                              {% else %}
+
+                                                  <section class="col-md-12 content" style="padding-top: 0.5em;" id="home_2">
+                                                    <div class="col-lg-6 col-md-6 content-item">
+                                                    <form method="post" action="">
+                                                      <h4 style="width:510px">Выберите знак зодиака, потом укажите дату прогноза и узнайте будущее</h4>
+                                                      <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
+                                                      <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
+                                                      <!-- <h5>Пока у вас выбран знак {{ sign }}</h5> -->
+                                                      <input id="date2" name='date2' type="text" value="дд.мм.гггг" size="10" onClick="xCal(this)" onKeyUp="xCal()" oninput="xCal()">
+
+                                                      <input type="submit" class="btn btn-big dark-blue-btn" style="background-image: url({{ url_for('static', filename='images/stars.jpg') }})" value="Узнать прогноз">
+                                                    </form>
+                                                  </div>
+                                                </section>
+
+
+
+                                                  {% endif %}
+                                                  {% endif %}
+
+    </div>
+  </div>
+
+
+</section>
+
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/jquery.singlePageNav.min.js"></script>
+<script src="static/js/cssworld.ru-xcal.js"></script>
+
+{% if sign=='Овен' %}
+<script type="text/javascript"> document.getElementsByClassName('aries-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Телец' %}
+<script type="text/javascript"> document.getElementsByClassName('taurus-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Близнецы' %}
+<script type="text/javascript"> document.getElementsByClassName('gemini-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Рак' %}
+<script type="text/javascript"> document.getElementsByClassName('cancer-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Лев' %}
+<script type="text/javascript"> document.getElementsByClassName('lion-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Дева' %}
+<script type="text/javascript"> document.getElementsByClassName('virgo-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Весы' %}
+<script type="text/javascript"> document.getElementsByClassName('libra-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Скорпион' %}
+<script type="text/javascript"> document.getElementsByClassName('scorpio-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Стрелец' %}
+<script type="text/javascript"> document.getElementsByClassName('sagittarius-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Козерог' %}
+<script type="text/javascript"> document.getElementsByClassName('capricorn-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Водолей' %}
+<script type="text/javascript"> document.getElementsByClassName('aquarius-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% elif sign=='Рыбы' %}
+<script type="text/javascript"> document.getElementsByClassName('pisces-css-1k019wu')[0].style.borderColor='#FF22B0' </script>
+{% endif %}
+
+
+{% endblock %}

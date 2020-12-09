@@ -7,16 +7,18 @@
 <section class="col-md-12 content" id="home">
   <h1>Документация</h1>
   <div class="col-lg-6 col-md-6 content-item" style="width: 80%;">
-    <p>Запросы к API ML-Horo выполняются по протоколу HTTPS методом POST. Авторизация не нужна. Входные и выходные структуры данных передаются в теле запроса и ответа в формате JSON. В настоящий момент API работает только для прогнозов Ванги.</p>
+    <p>Запросы к API ML-Horo выполняются по протоколу HTTPS методом POST. Авторизация не нужна. Входные и выходные структуры данных передаются в теле запроса и ответа в формате JSON. В настоящий момент API работает только для прогнозов Нострадамуса.</p>
     <p>Отправляйте запросы по адресу <b style="font-weight: 700;">https://188.40.133.2:12312/custom_prediction</b></p>
     <div class="dev_page_block">
   <h3><div role="heading" class="wk_header">Формат&nbsp;POST-запроса на URL</div></h3><br>
-Запрос содержит одно поле: <br>
+Запрос содержит два поля: <br>
 <table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Структура запроса</b></caption>
 
 <tbody>
 <tr><td><b>command</b><br>
 <span class="wk_gray">string</span></td><td>Дата прогноза в формате "дд-мм-гггг" и номер знака зодиака</td></tr>
+<tr><td><b>oracle</b><br>
+<span class="wk_gray">string</span></td><td>Название оракула </td></tr>
 </tbody>
 
 </table> <br>
@@ -62,9 +64,17 @@
 </tbody></table> <br>
 
 
+<table cellpadding="0" cellspacing="0" class="wk_table wk_table_no_margin"><colgroup><col style="width: 170px"></colgroup><caption><b>Названия оракулов</b></caption><tbody><tr><td style="padding:5px 5px 5px 50px;">
+<span class="wk_gray">vanga</span></td><td>Нострадамус</td></tr>
+
+<tr><td style="padding:5px 5px 5px 50px;">
+<span class="wk_gray">miha</span></td><td>Высший разум</td></tr>
+</tbody></table> <br>
+
+
 <div class="wk_hider_box_opened"><div class="wk_hider_header"><div class="wk_hider_title" onclick="Wiki.switchHider(this)">Пример запроса №1</div></div><div class="wk_hider_body"><blockquote><tt>
 { <br>
-&nbsp;&nbsp;"command": "2020-12-03 1" <br>
+&nbsp;&nbsp;"command": "2020-12-03 1", "oracle": "vanga" <br>
 }</tt></blockquote> <br>
 </div></div>
 

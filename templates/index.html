@@ -903,9 +903,34 @@
 
                                               {% else %}
 
+                                              <script type="text/javascript">
+
+
+                                              function validate_form ( )
+                                              {
+                                              	valid = true;
+
+                                                      if ( document.horo_form.date2.value == "дд.мм.гггг" )
+                                                      {
+                                                              alert ( "Пожалуйста, выберите корректную дату." );
+                                                              valid = false;
+                                                      }
+
+                                                      if (document.URL.slice(-10,)=='main_horo?' || document.URL.slice(-10,)=='/main_horo')
+                                                      {
+                                                              alert ( "Пожалуйста, выберите знак зодиака." );
+                                                              valid = false;
+                                                      }
+
+                                                      return valid;
+                                              }
+
+
+                                              </script>
+
                                                   <section class="col-md-12 content" style="padding-top: 0.5em;" id="home_2">
                                                     <div class="col-lg-6 col-md-6 content-item">
-                                                    <form method="post" action="">
+                                                    <form name="horo_form" method="post" action="" onsubmit="return validate_form ( );">
                                                       <h4 style="width:510px">Выберите знак зодиака, потом укажите дату прогноза и узнайте будущее</h4>
                                                       <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
                                                       <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">

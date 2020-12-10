@@ -922,6 +922,12 @@
                                                               valid = false;
                                                       }
 
+                                                      if ( Number(document.horo_form.date2.value.split('.')[2]) > 2049 || Number(document.horo_form.date2.value.split('.')[2]) < 1901)
+                                                      {
+                                                              alert ( "Пожалуйста, выберите год между 1901 и 2049." );
+                                                              valid = false;
+                                                      }
+
                                                       return valid;
                                               }
 
@@ -932,6 +938,7 @@
                                                     <div class="col-lg-6 col-md-6 content-item">
                                                     <form name="horo_form" method="post" action="" onsubmit="return validate_form ( );">
                                                       <h4 style="width:510px">Выберите знак зодиака, потом укажите дату прогноза и узнайте будущее</h4>
+                                                      <h6 style="width:510px">(Диапазон возможных годов 1901 - 2049)</h6>
                                                       <script type="text/javascript" src="static/js/cssworld.ru-xcal.js"></script>
                                                       <link rel="stylesheet" type="text/css" href="static/css/cssworld.ru-xcal.css">
                                                       <!-- <h5>Пока у вас выбран знак {{ sign }}</h5> -->

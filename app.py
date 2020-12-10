@@ -16,7 +16,7 @@ from datetime import datetime, date, timedelta
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request, render_template, request
 application = Flask(__name__)
-
+application.debug = True
 model_url = "http://188.40.133.2:12121/custom_prediction"
 
 SIGNS = ["овен",
@@ -90,8 +90,6 @@ PREDICTIONS_DF = pd.read_csv("files/horoscopes3.csv", sep=";", index_col="date")
 PREDICTIONS_DF_MIHA = pd.read_csv("files/horoscopes_miha.csv", sep=";", index_col="date")
 USER_DICT = {}
 
-app = Flask(__name__)
-app.debug = True
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -125,11 +123,11 @@ def get_prediction(target_date, target_sign, PREDICTIONS_DF=PREDICTIONS_DF, orac
 # Все страницы в подпапке index
 #
 
-@app.route('/')
+@application.route('/')
 # Главная страница с общим прогнозом на сегодня и со всеми остальными вариантами прогнозов
-@app.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
-@app.route('/index')
-@app.route('/index/<oracle>/<date>')
+@application.route('/index/<oracle>/<date>/<sign>', methods=['post', 'get'])
+@application.route('/index')
+@application.route('/index/<oracle>/<date>')
 def index(sign='main_horo', oracle='vanga', date='today', version=23):
     logging.info("sign: %r", sign)
     logging.info("oracle: %r", oracle)
@@ -186,16 +184,16 @@ def index(sign='main_horo', oracle='vanga', date='today', version=23):
         return render_template("index.html", oracle=oracle, main_horo=main_horo, day=day, sign=sign.capitalize(), sign_2=sign_2, label=label, date=date)
 
 # Рендер страницы экспертов
-@app.route('/index/experts')
+@application.route('/index/experts')
 def experts():
     return render_template("experts.html")
 
 # Рендер страницы справки api
-@app.route("/index/api")
+@application.route("/index/api")
 def api2():
   return render_template('api2.html')
 
-@app.route("/web", methods=['POST'])
+@application.route("/web", methods=['POST'])
 def web():
   logging.info("Request: %r", request.json)
   card = {}
@@ -218,7 +216,7 @@ def web():
   return json.dumps (response, ensure_ascii=False, indent=2)
 
 
-@app.route("/debug", methods=['POST'])
+@application.route("/debug", methods=['POST'])
 def debug():
   response = {
   "version":request.json['version'],
@@ -231,4 +229,4 @@ def debug():
 
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  application.run(debug=True)

@@ -6,6 +6,39 @@
 
 
 {% block content %}
+
+{% if oracle=='miha' %}
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://gnatkovsky.com.ua/files/modalcookie/jc/jquery.cookie.js"></script>
+
+  <div id="bg_popup">
+    <div id="popup">
+    <a  id="setCookie" class="close" href="#" title="Закрыть" onclick="document.getElementById('bg_popup').style.display='none'; return false;">X</a>
+  <h3>Внимание! 18+</h3>
+  <p><h4>Предсказания высшего разума созданы исключительно ради шутки и демонстрации возможностей переноса стиля при составлении гороскопов. Любые совпадения с вашей жизнью могут показаться бредом, но звёздам виднее :)</h4></p>
+  </div>
+  </div>
+
+  <script type="text/javascript">
+  jQuery(document).ready(function($){
+  $("#setCookie").click(function () {
+  $.cookie("popup", "shown", { expires:7, path: '/' });
+  $("#bg_popup").hide();
+  });
+
+  if ( $.cookie("popup") == null )
+  {
+  setTimeout(function(){
+  $("#bg_popup").show();
+}, 1)
+  }
+  else { $("#bg_popup").hide();
+  }
+  });
+      </script>
+{% endif %}
+
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="//github.com/elderfadeev/js-datepicker/blob/master/cssworld.ru-xcal-en.js"></script>
 <section class="col-md-12 content" id="home">
@@ -23,7 +56,7 @@
          </li>
          <li style="display: inline-block;margin: 5px 25px 0 0;">
            <a style="color: #777" href="/index/miha/today">
-             <span style="font-weight:600;font-size:15px;">Высший разум</span>
+             <span style="font-weight:600;font-size:15px;">Высший разум<span style="color:#ff22b0; min-width:5px; font-size: 60%;vertical-align: super;" title="Не кликайте, если не хотите расстраиваться">18+</span></span>
            </a>
          </li>
          <!-- <li style="display: inline-block;margin: 5px 25px 0 0;">

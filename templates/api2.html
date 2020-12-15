@@ -8,7 +8,7 @@
   <h1>Документация</h1>
   <div class="col-lg-6 col-md-6 content-item" style="width: 80%;">
     <p>Запросы к API ML-Horo выполняются по протоколу HTTP методом POST. Авторизация не нужна. Входные и выходные структуры данных передаются в теле запроса и ответа в формате JSON. В настоящий момент API работает только для прогнозов Нострадамуса.</p>
-    <p>Отправляйте запросы по адресу <b style="font-weight: 700;">https://188.40.133.2:12121/custom_prediction</b></p>
+    <p>Отправляйте запросы по адресу <b style="font-weight: 700;">http://ml-horoscope.ru/web</b></p>
     <div class="dev_page_block">
   <h3><div role="heading" class="wk_header">Формат&nbsp;POST-запроса на URL</div></h3><br>
 Запрос содержит следующие параметры: <br>
@@ -16,7 +16,7 @@
 
 <tbody>
 <tr><td><b>command</b><br>
-<span class="wk_gray">string</span></td><td>Дата прогноза в формате "дд-мм-гггг" и номер знака зодиака</td></tr>
+<span class="wk_gray">string</span></td><td>Дата прогноза в формате "гггг-мм-дд" и номер знака зодиака</td></tr>
 <tr><td><b>oracle</b><br>
 <span class="wk_gray">string</span></td><td>Название оракула. (Параметры command и oracle должны быть завернуты в словарь, доступный по ключу request) </td></tr>
 <tr><td><b>version</b><br>

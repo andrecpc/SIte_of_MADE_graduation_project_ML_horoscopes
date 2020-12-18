@@ -11,9 +11,28 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://gnatkovsky.com.ua/files/modalcookie/jc/jquery.cookie.js"></script>
 
-  <div id="bg_popup">
-    <div id="popup">
-    <a  id="setCookie" class="close" href="#" title="Закрыть" onclick="document.getElementById('bg_popup').style.display='none'; return false;">X</a>
+  <div id="bg_popup" style="position: fixed;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.8);
+  top: -120px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;">
+    <div id="popup" style="background:#fff;
+    width: 450px;
+    margin: 25% auto;
+    padding: 5px 20px;
+    position: relative;">
+    <a  id="setCookie" class="close" style="display:block;
+    position:absolute;
+    top:5px;
+    right:5px;
+    width:20px;
+    height:20px;
+    color:#000;
+    background:#fff;
+    cursor:pointer;" href="#" title="Закрыть" onclick="document.getElementById('bg_popup').style.display='none'; return false;">X</a>
   <h3>Внимание! 18+</h3>
   <p><h4>Предсказания высшего разума созданы исключительно ради шутки и демонстрации возможностей переноса стиля при составлении гороскопов. Любые совпадения с вашей жизнью случайны, хотя, возможно звездам виднее :)</h4></p>
   </div>
